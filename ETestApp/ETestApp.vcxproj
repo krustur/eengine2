@@ -150,8 +150,8 @@
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\eengine\EEngine.vcxproj">
-      <Project>{2aa61a33-1d47-4c6b-936a-fbcd6bdfb2be}</Project>
+    <ProjectReference Include="..\EEngine\EEngine.vcxproj">
+      <Project>{83640b62-0f3b-44a8-b4de-833530acb676}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

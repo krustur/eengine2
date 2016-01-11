@@ -18,6 +18,14 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="EApp.cpp" />
+    <ClCompile Include="EAppFactory.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="EApp.h" />
+    <ClInclude Include="EAppFactory.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{83640B62-0F3B-44A8-B4DE-833530ACB676}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
