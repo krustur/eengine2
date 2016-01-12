@@ -11,7 +11,8 @@ EAppFactory::~EAppFactory()
 {
 }
 
-EApp * EAppFactory::CreateApp()
+EApp & EAppFactory::CreateApp(HINSTANCE instance)
 {
-	return new EApp();
+	auto app = new EApp(instance);
+	return *app;
 }

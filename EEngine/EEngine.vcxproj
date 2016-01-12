@@ -21,10 +21,14 @@
   <ItemGroup>
     <ClCompile Include="EApp.cpp" />
     <ClCompile Include="EAppFactory.cpp" />
+    <ClCompile Include="EAppWindow.cpp" />
+    <ClCompile Include="EAppWindowFactory.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EApp.h" />
     <ClInclude Include="EAppFactory.h" />
+    <ClInclude Include="EAppWindow.h" />
+    <ClInclude Include="EAppWindowFactory.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{83640B62-0F3B-44A8-B4DE-833530ACB676}</ProjectGuid>

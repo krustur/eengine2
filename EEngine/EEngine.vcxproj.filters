@@ -21,12 +21,24 @@
     <ClCompile Include="EAppFactory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="EAppWindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EAppWindowFactory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EApp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="EAppFactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EAppWindow.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EAppWindowFactory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

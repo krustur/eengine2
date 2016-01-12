@@ -1,13 +1,13 @@
 #pragma once
+#include <Windows.h>
+#include "EApp.h"
 
-class EApp;
-
-class EAppFactory
+class EAppFactory final
 {
 public:
 	EAppFactory();
-	virtual ~EAppFactory();
+	 ~EAppFactory();
 
-	static EApp *CreateApp();
+	static EApp &CreateApp(HINSTANCE instance);
 };
 
