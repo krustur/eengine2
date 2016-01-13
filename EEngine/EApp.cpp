@@ -1,10 +1,8 @@
 #include "EApp.h"
 
-
-
-
-EApp::EApp(HINSTANCE hInstance)	:
-	_hInstance(hInstance)
+EApp::EApp(HINSTANCE hInstance, HWND windowHandle)	:
+	_hInstance(hInstance),
+	_windowHandle(windowHandle)
 {
 }
 

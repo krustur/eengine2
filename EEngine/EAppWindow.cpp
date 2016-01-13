@@ -14,7 +14,7 @@ EAppWindow::~EAppWindow()
 }
 
 
-bool EAppWindow::Open()
+bool EAppWindow::Init()
 {
 	WNDCLASS windowClass;
 
@@ -54,10 +54,13 @@ bool EAppWindow::Open()
 		return false;
 	}
 
+	return true;
+}
+
+void EAppWindow::Open()
+{	
 	ShowWindow(_window, _nShowCmd);
 	UpdateWindow(_window);
-
-	return true;
 }
 
 const HWND &EAppWindow::GetWindowHandle() const

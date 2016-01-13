@@ -8,6 +8,6 @@ public:
 	EAppFactory();
 	 ~EAppFactory();
 
-	static EApp &CreateApp(HINSTANCE instance);
+	static EApp &CreateApp(HINSTANCE instance, HWND windowHandle);
 };
 

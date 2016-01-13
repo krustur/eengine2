@@ -23,12 +23,16 @@
     <ClCompile Include="EAppFactory.cpp" />
     <ClCompile Include="EAppWindow.cpp" />
     <ClCompile Include="EAppWindowFactory.cpp" />
+    <ClCompile Include="ERenderer.cpp" />
+    <ClCompile Include="ELog.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EApp.h" />
     <ClInclude Include="EAppFactory.h" />
     <ClInclude Include="EAppWindow.h" />
     <ClInclude Include="EAppWindowFactory.h" />
+    <ClInclude Include="ERenderer.h" />
+    <ClInclude Include="ELog.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{83640B62-0F3B-44A8-B4DE-833530ACB676}</ProjectGuid>

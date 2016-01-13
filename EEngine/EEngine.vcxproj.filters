@@ -27,6 +27,12 @@
     <ClCompile Include="EAppWindowFactory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ELog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ERenderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EApp.h">
@@ -39,6 +45,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="EAppWindowFactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ELog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ERenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

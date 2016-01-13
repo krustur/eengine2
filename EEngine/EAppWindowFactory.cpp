@@ -1,7 +1,5 @@
 #include "EAppWindowFactory.h"
 
-
-
 EAppWindowFactory::EAppWindowFactory()
 {
 }

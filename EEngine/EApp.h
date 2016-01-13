@@ -4,7 +4,7 @@
 class EApp
 {
 public:
-	EApp(HINSTANCE hInstance);
+	EApp(HINSTANCE hInstance, HWND windowHandle);
 	virtual ~EApp();
 	
 	void Start();
@@ -12,5 +12,6 @@ public:
 
 private:
 	HINSTANCE _hInstance;
+	HWND _windowHandle;
 };
 

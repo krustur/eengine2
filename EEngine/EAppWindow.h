@@ -7,7 +7,8 @@ public:
 	EAppWindow(HINSTANCE hInstance, int nShowCmd);
 	virtual ~EAppWindow();
 	
-	bool Open();
+	bool Init();
+	void Open();
 	const HWND &GetWindowHandle() const;
 
 private:
