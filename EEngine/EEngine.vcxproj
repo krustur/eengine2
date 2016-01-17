@@ -33,6 +33,7 @@
     <ClInclude Include="EAppWindowFactory.h" />
     <ClInclude Include="ERenderer.h" />
     <ClInclude Include="ELog.h" />
+    <ClInclude Include="ERaiiFactory.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{83640B62-0F3B-44A8-B4DE-833530ACB676}</ProjectGuid>

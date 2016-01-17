@@ -2,13 +2,13 @@
 
 #include <Windows.h>
 #include "EAppWindow.h"
+#include "ERaiiFactory.h"
 
 class EAppWindowFactory final
 {
 public:
-	EAppWindowFactory();
-	~EAppWindowFactory();
-
-	static EAppWindow &CreateAppWindow(HINSTANCE hInstance, int nShowCmd);
+	EAppWindow &CreateAppWindow(HINSTANCE hInstance, int nShowCmd);
+private:
+	ERaiiFactory<EAppWindow> _raiiFactory;
 };
 

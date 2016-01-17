@@ -2,17 +2,20 @@
 
 EApp::EApp(HINSTANCE hInstance, HWND windowHandle)	:
 	_hInstance(hInstance),
-	_windowHandle(windowHandle)
+	_windowHandle(windowHandle),
+	_eRenderer(new ERenderer())
 {
 }
 
 
 EApp::~EApp()
 {
+	delete _eRenderer;
 }
 
-void EApp::Start()
+void EApp::Init()
 {
+	_eRenderer->Init();
 }
 
 int EApp::Run()

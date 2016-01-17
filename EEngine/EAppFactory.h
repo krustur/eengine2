@@ -1,13 +1,17 @@
 #pragma once
+
 #include <Windows.h>
 #include "EApp.h"
+#include "ERaiiFactory.h"
 
-class EAppFactory final
+class EAppFactory 
 {
 public:
-	EAppFactory();
-	 ~EAppFactory();
+	//EAppFactory(){}	
 
-	static EApp &CreateApp(HINSTANCE instance, HWND windowHandle);
+	EApp & CreateApp(HINSTANCE instance, HWND windowHandle);
+
+private:
+	ERaiiFactory<EApp> _raiiFactory;
 };
 

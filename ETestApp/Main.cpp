@@ -6,14 +6,17 @@
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pCmsLine, int nShowCmd)
 {
-	EAppWindow &window = EAppWindowFactory::CreateAppWindow(hInstance, nShowCmd);
+	EAppWindowFactory windowFactory;
+	auto &window = windowFactory.CreateAppWindow(hInstance, nShowCmd);
 	window.Init();
 
-	EApp &app = EAppFactory::CreateApp(hInstance, window.GetWindowHandle());
+	EAppFactory appFactory;
+	auto &app = appFactory.CreateApp(hInstance, window.GetWindowHandle());
 
 	window.Open();
-	app.Start();
+	app.Init();
 	auto runResult = app.Run();
+
 
 	return runResult;
 }

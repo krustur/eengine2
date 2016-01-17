@@ -1,16 +1,6 @@
 #include "EAppWindowFactory.h"
 
-EAppWindowFactory::EAppWindowFactory()
-{
-}
-
-
-EAppWindowFactory::~EAppWindowFactory()
-{
-}
-
 EAppWindow & EAppWindowFactory::CreateAppWindow(HINSTANCE hInstance, int nShowCmd)
 {
-	auto window = new EAppWindow(hInstance, nShowCmd);
-	return *window;
+	return _raiiFactory.Create(new EAppWindow(hInstance, nShowCmd)); 
 }
