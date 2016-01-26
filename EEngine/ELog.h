@@ -8,6 +8,7 @@ public:
 	ELog();
 	~ELog();
 
-	static void LogErrorHresult(HRESULT hresult);
+	static void LogHResult(HRESULT hresult);
+	void Log(char *string);
 };
 

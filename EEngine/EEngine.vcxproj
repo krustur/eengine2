@@ -25,6 +25,7 @@
     <ClCompile Include="EAppWindowFactory.cpp" />
     <ClCompile Include="ERenderer.cpp" />
     <ClCompile Include="ELog.cpp" />
+    <ClCompile Include="ETimer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EApp.h" />
@@ -34,6 +35,24 @@
     <ClInclude Include="ERenderer.h" />
     <ClInclude Include="ELog.h" />
     <ClInclude Include="ERaiiFactory.h" />
+    <ClInclude Include="ETimer.h" />
+    <ClInclude Include="IEEffect.h" />
+    <ClInclude Include="IEAppStatsListener.h" />
+    <ClInclude Include="inc\d3dx11effect.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="HLSL\color.fx">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </EntryPointName>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Effect</ShaderType>
+      <DeploymentContent>true</DeploymentContent>
+    </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="lib\Effects11.lib" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{83640B62-0F3B-44A8-B4DE-833530ACB676}</ProjectGuid>

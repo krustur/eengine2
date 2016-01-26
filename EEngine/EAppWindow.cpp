@@ -1,4 +1,5 @@
 #include <Windows.h>
+#include <sstream>
 #include "EAppWindow.h"
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -85,3 +86,26 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	}
 	return DefWindowProc(hWnd, msg, wParam, lParam);
 }
+
+void EAppWindow::BeginUpdate()
+{
+}
+
+void EAppWindow::UpdateFramesPerSeconds(float framesPerSeconds)
+{
+	_framesPerSeconds = framesPerSeconds;
+}
+
+void EAppWindow::UpdateFrameTime(float frameTime)
+{
+	_frameTime = frameTime;
+}
+
+void EAppWindow::EndUpdate()
+{
+	std::wostringstream outs;
+	outs.precision(6);
+	outs << L"FPS: " << _framesPerSeconds << L"    " << L"Frame time: " << _frameTime << L" (ms)";
+	SetWindowText(_window, outs.str().c_str());
+}
+

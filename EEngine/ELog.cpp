@@ -3,6 +3,8 @@
 
 ELog::ELog()
 {
+	std::freopen("EEngine.log", "w", stdout);
+	std::cout << "EEngine log start" << std::endl;
 }
 
 
@@ -10,7 +12,7 @@ ELog::~ELog()
 {
 }
 
-void ELog::LogErrorHresult(HRESULT hresult)
+void ELog::LogHResult(HRESULT hresult)
 {
 	LPTSTR errorText = NULL;
 
@@ -37,4 +39,10 @@ void ELog::LogErrorHresult(HRESULT hresult)
 		LocalFree(errorText);
 		errorText = NULL;
 	}
+}
+
+void ELog::Log(char *string)
+{
+	printf(string);
+	std::cout << string << std::endl;
 }
