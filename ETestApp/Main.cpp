@@ -1,8 +1,13 @@
 #include <windows.h>
-#include "Eapp.h"
 #include "EAppFactory.h"
 #include "EAppWindowFactory.h"
-#include <string>
+#include "BoxTest.h"
+
+
+void TestCode()
+{
+
+}
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pCmsLine, int nShowCmd)
 {
@@ -12,11 +17,18 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pCmsLine, 
 
 	EAppFactory appFactory;
 	auto &app = appFactory.CreateApp(hInstance, window.GetWindowHandle());
+	app.SetAppStatsListener(&window);
 
 	window.Open();
-	app.Init();
-	auto runResult = app.Run();
 
+	TestCode();
+	
+	app.Init();
+
+	auto boxTest = BoxTest(&app);
+	boxTest.Init();
+
+	auto runResult = app.Run();
 
 	return runResult;
 }
