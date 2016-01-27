@@ -6,4 +6,4 @@ Plans for:
 - eengine: DX based rendering engine
 - editor:  Qt based editor
 
-Probably abondoned project in a few days or hours. :'(
+Still not abandonded! Yay \o/
