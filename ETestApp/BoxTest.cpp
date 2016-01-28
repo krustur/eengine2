@@ -83,7 +83,7 @@ void BoxTest::Init()
 	BuildFX();
 	BuildVertexLayout();
 
-	_eApp->SetEffect(this);
+	
 }
 
 void BoxTest::BuildGeometryBuffers()
@@ -207,7 +207,7 @@ void BoxTest::BuildVertexLayout()
 
 void BoxTest::UpdateScene(float deltaTime)
 {
-	_theta += 1.0f * deltaTime;
+	//_theta += 1.0f * deltaTime;
 
 	float x = _radius*sinf(_phi)*cosf(_theta);
 	float z = _radius*sinf(_phi)*sinf(_theta);
@@ -261,4 +261,49 @@ void BoxTest::OnResize()
 {
 	XMMATRIX P = XMMatrixPerspectiveFovLH(0.25f*3.1415926535f, _eRenderer->GetAspectRatio(), 1.0f, 1000.0f);
 	XMStoreFloat4x4(&_projectionMatrix, P);
+}
+
+void BoxTest::OnMouseDown(WPARAM btnState, int x, int y)
+{
+	_lastMousePos.x = x;
+	_lastMousePos.y = y;
+
+	//SetCapture(window);
+}
+
+void BoxTest::OnMouseUp(WPARAM btnState, int x, int y)
+{
+	//ReleaseCapture();
+}
+
+
+static float Clamp(const float& x, const float& low, const float& high)
+{
+	return x < low ? low : (x > high ? high : x);
+}
+
+void BoxTest::OnMouseMove(WPARAM btnState, int x, int y)
+{
+	if ((btnState & MK_LBUTTON) != 0)
+	{
+		float dx = XMConvertToRadians(0.25f*static_cast<float>(x - _lastMousePos.x));
+		float dy = XMConvertToRadians(0.25f*static_cast<float>(y - _lastMousePos.y));
+
+		_theta -= dx;
+		_phi -= dy;
+
+		_phi = Clamp(_phi, 0.1f, 3.1415926535f - 0.1f);
+	}
+	else if ((btnState & MK_RBUTTON) != 0)
+	{
+		float dx = 0.005f*static_cast<float>(x - _lastMousePos.x);
+		float dy = 0.005f*static_cast<float>(y - _lastMousePos.y);
+
+		_radius += dx - dy;
+
+		_radius = Clamp(_radius, 3.0f, 15.0f);
+	}
+
+	_lastMousePos.x = x;
+	_lastMousePos.y = y;
 }

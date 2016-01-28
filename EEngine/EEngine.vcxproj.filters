@@ -71,6 +71,9 @@
     <ClInclude Include="ETimer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="IEWindowEventListener.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="HLSL\color.fx" />

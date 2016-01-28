@@ -1,12 +1,15 @@
 #include <Windows.h>
+#include <Windowsx.h>
 #include <sstream>
+#include <cassert>
 #include "EAppWindow.h"
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 EAppWindow::EAppWindow(HINSTANCE hInstance, int nShowCmd) :
 	_hInstance(hInstance),
-	_nShowCmd(nShowCmd)
+	_nShowCmd(nShowCmd),
+	_windowEventListener(nullptr)
 {
 }
 
@@ -20,7 +23,7 @@ bool EAppWindow::Init()
 	WNDCLASS windowClass;
 
 	windowClass.style = CS_HREDRAW | CS_VREDRAW;
-	windowClass.lpfnWndProc = WndProc;
+	windowClass.lpfnWndProc = StaticWndProc;
 	windowClass.cbClsExtra = 0;
 	windowClass.cbWndExtra = 0;
 	windowClass.hInstance = _hInstance;
@@ -47,7 +50,7 @@ bool EAppWindow::Init()
 		0,
 		0,
 		_hInstance,
-		0);
+		this);
 
 	if (_window == 0)
 	{
@@ -69,8 +72,35 @@ const HWND &EAppWindow::GetWindowHandle() const
 	return _window;
 }
 
-LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
+void EAppWindow::SetWindowEventListener(IEWindowEventListener *windowEventListener)
 {
+	_windowEventListener = windowEventListener;
+}
+
+
+LRESULT CALLBACK EAppWindow::StaticWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+	EAppWindow * pParent;
+
+	if (uMsg == WM_CREATE)
+	{
+		pParent = (EAppWindow*)((LPCREATESTRUCT)lParam)->lpCreateParams;
+		SetWindowLongPtr(hWnd, GWL_USERDATA, (LONG_PTR)pParent);
+	}
+	else
+	{
+		pParent = (EAppWindow*)GetWindowLongPtr(hWnd, GWL_USERDATA);
+		if (!pParent) return DefWindowProc(hWnd, uMsg, wParam, lParam);
+	}
+
+	//pParent->m_hWnd = hWnd;
+	return pParent->WndProc(hWnd, uMsg, wParam, lParam);
+}
+
+LRESULT EAppWindow::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	assert(_window == nullptr || hWnd == _window);
+
 	switch (msg)
 	{
 		case WM_DESTROY:
@@ -79,10 +109,36 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			return 0;
 		}
 		case WM_LBUTTONDOWN:
+		case WM_MBUTTONDOWN:
+		case WM_RBUTTONDOWN:
 		{
-			MessageBox(0, L"You clicked it!", L"Hello", MB_OK);
-			return 0;
-		} 
+			if (_windowEventListener != nullptr)
+			{
+				_windowEventListener->OnMouseDown(wParam, GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
+				return 0;
+			}
+			break;
+		}
+		case WM_LBUTTONUP:
+		case WM_MBUTTONUP:
+		case WM_RBUTTONUP:
+		{
+			if (_windowEventListener != nullptr)
+			{
+				_windowEventListener->OnMouseUp(wParam, GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
+				return 0;
+			}
+			break;
+		}
+		case WM_MOUSEMOVE:
+		{
+			if (_windowEventListener != nullptr)
+			{
+				_windowEventListener->OnMouseMove(wParam, GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
+				return 0;
+			}
+			break;			
+		}
 	}
 	return DefWindowProc(hWnd, msg, wParam, lParam);
 }

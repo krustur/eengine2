@@ -38,6 +38,7 @@
     <ClInclude Include="ETimer.h" />
     <ClInclude Include="IEEffect.h" />
     <ClInclude Include="IEAppStatsListener.h" />
+    <ClInclude Include="IEWindowEventListener.h" />
     <ClInclude Include="inc\d3dx11effect.h" />
   </ItemGroup>
   <ItemGroup>

@@ -5,11 +5,12 @@
 #include "Eapp.h"
 #include "ERenderer.h"
 #include "IEEffect.h"
+#include "IEWindowEventListener.h"
 #include <DirectXMath.h>
 
 
 
-class BoxTest : public IEEffect
+class BoxTest : public IEEffect, public IEWindowEventListener
 {
 public:
 	BoxTest(EApp *eApp);
@@ -24,6 +25,9 @@ public:
 	void UpdateScene(float deltaTime);
 	void DrawScene();
 	void OnResize();
+	void OnMouseDown(WPARAM buttonState, int x, int y);
+	void OnMouseUp(WPARAM buttonState, int x, int y);
+	void OnMouseMove(WPARAM buttonState, int x, int y);
 
 private:
 	EApp* _eApp;
