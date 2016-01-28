@@ -1,9 +1,12 @@
 #include <iostream>
+#include <stdio.h>
+
 #include "ELog.h"
 
-ELog::ELog()
+ELog::ELog() :
+	_stream(nullptr)
 {
-	std::freopen("EEngine.log", "w", stdout);
+	freopen_s(&_stream, "EEngine.log", "w", stdout);
 	std::cout << "EEngine log start" << std::endl;
 }
 
