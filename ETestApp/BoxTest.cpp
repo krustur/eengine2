@@ -263,6 +263,16 @@ void BoxTest::OnResize()
 	XMStoreFloat4x4(&_projectionMatrix, P);
 }
 
+void BoxTest::OnActivate()
+{
+
+}
+
+void BoxTest::OnDeactivate()
+{
+
+}
+
 void BoxTest::OnMouseDown(WPARAM btnState, int x, int y)
 {
 	_lastMousePos.x = x;

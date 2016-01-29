@@ -7,7 +7,7 @@ public:
 
 	void Init();
 	void Tick();
-	void Paus();
+	void Pause();
 	void Resume();
 
 	float GetTotalTime() const;

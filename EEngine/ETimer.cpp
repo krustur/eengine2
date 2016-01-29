@@ -34,11 +34,11 @@ float ETimer::GetDeltaTime()const
 
 void ETimer::Init()
 {
-	__int64 currTime;
-	QueryPerformanceCounter((LARGE_INTEGER*)&currTime);
+	__int64 currentTime;
+	QueryPerformanceCounter((LARGE_INTEGER*)&currentTime);
 
-	_initTime = currTime;
-	_previousTime = currTime;
+	_initTime = currentTime;
+	_previousTime = currentTime;
 	_pauseTime = 0;
 	_isPaused = false;
 }
@@ -52,9 +52,9 @@ void ETimer::Tick()
 		return;
 	}
 
-	__int64 currTime;
-	QueryPerformanceCounter((LARGE_INTEGER*)&currTime);
-	_currentTime = currTime;
+	__int64 currentTime;
+	QueryPerformanceCounter((LARGE_INTEGER*)&currentTime);
+	_currentTime = currentTime;
 
 	_deltaTime = (_currentTime - _previousTime)*_secondsPerCounter;
 
@@ -68,27 +68,27 @@ void ETimer::Tick()
 
 void ETimer::Resume()
 {
-	__int64 startTime;
-	QueryPerformanceCounter((LARGE_INTEGER*)&startTime);
+	__int64 currentTime;
+	QueryPerformanceCounter((LARGE_INTEGER*)&currentTime);
 	
 	if (_isPaused)
 	{
-		_pausedTimeSpan += (startTime - _pauseTime);
+		_pausedTimeSpan += (currentTime - _pauseTime);
 
-		_previousTime = startTime;
+		_previousTime = currentTime;
 		_pauseTime = 0;
 		_isPaused = false;
 	}
 }
 
-void ETimer::Paus()
+void ETimer::Pause()
 {
 	if (!_isPaused)
 	{
-		__int64 currTime;
-		QueryPerformanceCounter((LARGE_INTEGER*)&currTime);
+		__int64 currentTime;
+		QueryPerformanceCounter((LARGE_INTEGER*)&currentTime);
 
-		_pauseTime = currTime;
+		_pauseTime = currentTime;
 		_isPaused = true;
 	}
 }

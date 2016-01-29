@@ -30,6 +30,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pCmsLine, 
 
 	app.SetEffect(&boxTest);
 	window.SetWindowEventListener(&boxTest);
+	window.SetWindowEventListener(&app);
 
 	auto runResult = app.Run();
 

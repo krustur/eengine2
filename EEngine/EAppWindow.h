@@ -1,6 +1,7 @@
 #pragma once
 
 #include <windows.h>
+#include <list>
 #include "IEAppStatsListener.h"
 #include "IEWindowEventListener.h"
 
@@ -30,7 +31,7 @@ private:
 
 	HWND _window = 0;
 
-	IEWindowEventListener *_windowEventListener;
+	std::list<IEWindowEventListener *> _windowEventListeners;	
 
 	float _framesPerSeconds;
 	float _frameTime;	
