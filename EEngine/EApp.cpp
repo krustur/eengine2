@@ -8,6 +8,7 @@ EApp::EApp(HINSTANCE hInstance, HWND windowHandle)	:
 	_eLog(new ELog()),
 	_eRenderer(new ERenderer(windowHandle)),
 	_eTimer(new ETimer()),
+	_paused(false),
 	_eEffect(nullptr),
 	_eAppStatsListener(nullptr)
 {	
@@ -41,8 +42,7 @@ int EApp::Run()
 		{
 			_eTimer->Tick();
 
-			//if (!_appPaused)
-			if (true)
+			if (!_paused)
 			{
 				UpdateStats();
 				if (_eEffect != nullptr)
@@ -113,4 +113,28 @@ void EApp::UpdateStats()
 	{
 		_eAppStatsListener->EndUpdate();
 	}
+}
+
+void EApp::OnActivate()
+{
+	_paused = false;
+	_eTimer->Resume();
+}
+
+void EApp::OnDeactivate()
+{
+	_paused = true;
+	_eTimer->Pause();
+}
+
+void EApp::OnMouseDown(WPARAM buttonState, int x, int y)
+{
+}
+
+void EApp::OnMouseUp(WPARAM buttonState, int x, int y)
+{
+}
+
+void EApp::OnMouseMove(WPARAM buttonState, int x, int y)
+{
 }

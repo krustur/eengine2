@@ -8,8 +8,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 EAppWindow::EAppWindow(HINSTANCE hInstance, int nShowCmd) :
 	_hInstance(hInstance),
-	_nShowCmd(nShowCmd),
-	_windowEventListener(nullptr)
+	_nShowCmd(nShowCmd)
 {
 }
 
@@ -74,7 +73,7 @@ const HWND &EAppWindow::GetWindowHandle() const
 
 void EAppWindow::SetWindowEventListener(IEWindowEventListener *windowEventListener)
 {
-	_windowEventListener = windowEventListener;
+	_windowEventListeners.push_back(windowEventListener);
 }
 
 
@@ -107,6 +106,25 @@ LRESULT EAppWindow::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		{
 			PostQuitMessage(0);
 			return 0;
+		}	
+		case WM_ACTIVATE:
+		{
+			if (LOWORD(wParam) == WA_INACTIVE)
+			{
+				for (auto iterator = _windowEventListeners.begin(), end = _windowEventListeners.end(); iterator != end; ++iterator)
+				{
+					(*iterator)->OnDeactivate();
+				}
+			}
+			else
+			{
+				for (auto iterator = _windowEventListeners.begin(), end = _windowEventListeners.end(); iterator != end; ++iterator)
+				{
+					(*iterator)->OnActivate();
+				}
+			}
+			return 0;
+		}
 		case WM_MENUCHAR:
 		{
 			return MAKELRESULT(0, MNC_CLOSE);
@@ -120,10 +138,9 @@ LRESULT EAppWindow::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		case WM_MBUTTONDOWN:
 		case WM_RBUTTONDOWN:
 		{
-			if (_windowEventListener != nullptr)
+			for (auto iterator = _windowEventListeners.begin(), end = _windowEventListeners.end(); iterator != end; ++iterator) 
 			{
-				_windowEventListener->OnMouseDown(wParam, GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
-				return 0;
+				(*iterator)->OnMouseMove(wParam, GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
 			}
 			break;
 		}
@@ -131,19 +148,17 @@ LRESULT EAppWindow::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		case WM_MBUTTONUP:
 		case WM_RBUTTONUP:
 		{
-			if (_windowEventListener != nullptr)
+			for (auto iterator = _windowEventListeners.begin(), end = _windowEventListeners.end(); iterator != end; ++iterator)
 			{
-				_windowEventListener->OnMouseUp(wParam, GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
-				return 0;
-			}
+				(*iterator)->OnMouseUp(wParam, GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
+			}			
 			break;
 		}
 		case WM_MOUSEMOVE:
 		{
-			if (_windowEventListener != nullptr)
+			for (auto iterator = _windowEventListeners.begin(), end = _windowEventListeners.end(); iterator != end; ++iterator)
 			{
-				_windowEventListener->OnMouseMove(wParam, GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
-				return 0;
+				(*iterator)->OnMouseMove(wParam, GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
 			}
 			break;			
 		}
