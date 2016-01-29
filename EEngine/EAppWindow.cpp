@@ -107,6 +107,14 @@ LRESULT EAppWindow::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		{
 			PostQuitMessage(0);
 			return 0;
+		case WM_MENUCHAR:
+		{
+			return MAKELRESULT(0, MNC_CLOSE);
+		}
+		case WM_GETMINMAXINFO:
+		{
+			((MINMAXINFO*)lParam)->ptMinTrackSize.x = 640;
+			((MINMAXINFO*)lParam)->ptMinTrackSize.y = 480;
 		}
 		case WM_LBUTTONDOWN:
 		case WM_MBUTTONDOWN:
