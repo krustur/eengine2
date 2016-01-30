@@ -2,6 +2,8 @@
 #include <Windowsx.h>
 #include <sstream>
 #include <cassert>
+#include <fstream>
+#include <iostream>
 #include "EAppWindow.h"
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -13,7 +15,7 @@ EAppWindow::EAppWindow(HINSTANCE hInstance, int nShowCmd) :
 	_framesPerSeconds(0.0f),
 	_frameTime(0.0f),
 	_window(nullptr),
-	_eLog(ELog(L"EAppWindow")),
+	_eLog(L"EAppWindow"),
 	_windowWidth(0),
 	_windowHeight(0),
 	_sizeMoving(false),

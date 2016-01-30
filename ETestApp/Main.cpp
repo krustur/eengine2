@@ -30,7 +30,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pCmsLine, 
 	
 	app.Init();
 
-	auto boxTest = BoxTest(&app);
+	BoxTest boxTest(&app);
 	boxTest.Init();
 
 	app.SetEffect(&boxTest);

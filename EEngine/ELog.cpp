@@ -11,11 +11,11 @@
 FILE *ELog::_stream;
 
 ELog::ELog(LPTSTR name) :
+	formatStream(),
 	_name(name)
 {
 	StaticInitialization();
 }
-
 
 ELog::~ELog()
 {
@@ -117,4 +117,13 @@ std::string ELog::GetDateTimeString()
 	stringStream << ":" << std::setw(6) << std::setfill('0') << micros << " ";
 
 	return stringStream.str();
+}
+
+void ELog::FormatLine(ELog &eLog)
+{
+	std::string str = formatStream.str();
+	auto cstr = str.c_str();
+
+	LogLine(cstr);
+	formatStream.str(std::string());
 }

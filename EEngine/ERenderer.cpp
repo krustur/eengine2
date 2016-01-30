@@ -6,8 +6,10 @@
 #include <sstream>
 #include <fstream>
 #include <vector>
+#include <iostream>
 #include "ERenderer.h"
 #include "ELog.h"
+
 
 
 ERenderer::ERenderer(HWND windowHandle) :
@@ -23,8 +25,8 @@ ERenderer::ERenderer(HWND windowHandle) :
 	_depthStencilBuffer(0),
 	_renderTargetView(0),
 	_depthStencilView(0),
-	_eLog(ELog(L"ERenderer"))
-{
+	_eLog(L"ERenderer")	
+{	
 }
 
 ERenderer::~ERenderer()
@@ -174,11 +176,7 @@ bool ERenderer::Init()
 
 void ERenderer::OnResize()
 {
-	std::ostringstream stringStream;
-	stringStream << "OnResize(), " << _clientWidth << ", " << _clientHeight;
-	std::string copyOfStr = stringStream.str();
-
-	_eLog.LogLine(copyOfStr.c_str());
+	_eLog.FormatLine(_eLog << "OnResize(), " << _clientWidth << ", " << _clientHeight);
 
 	assert(_d3dImmediateContext);
 	assert(_d3dDevice);

@@ -3,6 +3,7 @@
 #include <d3d11.h>
 #include <DirectXMath.h>
 #include <d3dcompiler.h>
+#include <iostream>
 #include "ELog.h"
 #include "d3dx11Effect.h"
 
@@ -32,7 +33,7 @@ struct Vertex
 BoxTest::BoxTest(EApp *eApp) :
 	_eApp(eApp),
 	_eRenderer(eApp->GetRenderer()),
-	_eLogger(ELog(L"BoxTest")),
+	_eLogger(L"BoxTest"),
 	_vertexBuffer(0),
 	_indexBuffer(0),
 	_effect(0),

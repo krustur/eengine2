@@ -1,12 +1,13 @@
 #include <sstream>
+#include <iostream>
 #include "EApp.h"
 #include "ELog.h"
 
 EApp::EApp(HINSTANCE hInstance, HWND windowHandle)	:
 	_hInstance(hInstance),
 	_windowHandle(windowHandle),
-	_eLog(ELog(L"EApp")),
-	_eRenderer(ERenderer(windowHandle)),
+	_eLog(L"EApp"),
+	_eRenderer(windowHandle),
 	_eTimer(ETimer()),
 	_paused(false),
 	_eEffect(nullptr),
