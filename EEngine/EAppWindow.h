@@ -4,6 +4,7 @@
 #include <list>
 #include "IEAppStatsListener.h"
 #include "IEWindowEventListener.h"
+#include "ELog.h"
 
 class EAppWindow : public IEAppStatsListener
 {
@@ -30,12 +31,22 @@ private:
 	HINSTANCE _hInstance;
 	int _nShowCmd;
 
-	HWND _window = 0;
+	HWND _window;
+
+	ELog _eLog;
 
 	std::list<IEWindowEventListener *> _windowEventListeners;	
 
 	bool _paused;
 	float _framesPerSeconds;
 	float _frameTime;	
+
+	int _windowWidth;
+	int _windowHeight;
+	bool _sizeMoving;
+	bool _maximized;
+	bool _minimized;
+
+	void SendResizeEvent(int width, int height);
 };
 

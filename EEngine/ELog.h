@@ -11,9 +11,9 @@ public:
 	~ELog();
 
 	void LogHResult(HRESULT hresult);
-	void Log(char *string);
+	void Log(const char *string);
 	void Log(LPTSTR string);
-	void LogLine(char *string);
+	void LogLine(const char *string);
 	void LogLine(LPTSTR string);
 private:
 	void LogHeader();

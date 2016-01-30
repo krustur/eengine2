@@ -132,3 +132,5 @@ void EApp::OnMouseUp(WPARAM buttonState, int x, int y)
 void EApp::OnMouseMove(WPARAM buttonState, int x, int y)
 {
 }
+
+void EApp::OnResize(int width, int height) {}

@@ -62,32 +62,45 @@ void ELog::LogHResult(HRESULT hresult)
 	}
 }
 
-void ELog::Log(char *string)
+void ELog::Log(const char *string)
 {
 	std::cout << string;
+	OutputDebugStringA(string);
 }
 
 void ELog::Log(LPTSTR string)
 {
 	std::wcout << string;
+	OutputDebugStringW(string);
 }
 
-void ELog::LogLine(char *string)
+void ELog::LogLine(const char *string)
 {
 	LogHeader();	
 	std::cout << string << std::endl;
+	OutputDebugStringA(string);
+	OutputDebugStringA("\n");
 }
 
 void ELog::LogLine(LPTSTR string)
 {
 	LogHeader();
 	std::wcout << string << std::endl;
+	OutputDebugStringW(string);
+	OutputDebugStringW(L"\n");
 }
 
 void ELog::LogHeader()
 {
-	std::cout << GetDateTimeString().c_str();
+	auto prosit = GetDateTimeString();
+	auto dateTimeString = prosit.c_str();
+	std::cout << dateTimeString;
 	std::wcout << L" [" << _name << L"] ";
+
+	OutputDebugStringA(dateTimeString);
+	OutputDebugStringW(L" [");
+	OutputDebugStringW(_name);
+	OutputDebugStringW(L"] ");
 }
 
 std::string ELog::GetDateTimeString()

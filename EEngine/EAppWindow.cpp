@@ -11,7 +11,14 @@ EAppWindow::EAppWindow(HINSTANCE hInstance, int nShowCmd) :
 	_nShowCmd(nShowCmd),
 	_paused(false),
 	_framesPerSeconds(0.0f),
-	_frameTime(0.0f)
+	_frameTime(0.0f),
+	_window(nullptr),
+	_eLog(ELog(L"EAppWindow")),
+	_windowWidth(0),
+	_windowHeight(0),
+	_sizeMoving(false),
+	_minimized(false),
+	_maximized(false)
 {
 }
 
@@ -114,6 +121,7 @@ LRESULT EAppWindow::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		{
 			if (LOWORD(wParam) == WA_INACTIVE)
 			{
+				//_eLog.LogLine(L"OnDeactivate");
 				for (auto iterator = _windowEventListeners.begin(), end = _windowEventListeners.end(); iterator != end; ++iterator)
 				{
 					(*iterator)->OnDeactivate();
@@ -121,11 +129,74 @@ LRESULT EAppWindow::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			}
 			else
 			{
+				//_eLog.LogLine(L"OnActivate");
 				for (auto iterator = _windowEventListeners.begin(), end = _windowEventListeners.end(); iterator != end; ++iterator)
 				{
 					(*iterator)->OnActivate();
 				}
 			}
+			return 0;
+		}
+		case WM_SIZE:
+		{
+			_windowWidth = LOWORD(lParam);
+			_windowHeight = HIWORD(lParam);
+			
+			if (wParam == SIZE_MINIMIZED)
+			{
+				//_eLog.LogLine(L"OnMinimized");
+				//_paused = true;
+				_minimized = true;
+				_maximized = false;
+			}
+			else if (wParam == SIZE_MAXIMIZED)
+			{
+				//_eLog.LogLine(L"OnMaximized"); 
+				//_paused = false;
+				_minimized = false;
+				_maximized = true;
+				SendResizeEvent(_windowWidth, _windowHeight);
+			}
+			else if (wParam == SIZE_RESTORED)
+			{
+				if (_minimized)
+				{
+					//_eLog.LogLine(L"OnRestored (from minimized)");
+					//	_paused = false;
+					_minimized = false;
+					SendResizeEvent(_windowWidth, _windowHeight);
+				}
+				else if (_maximized)
+				{
+					//_eLog.LogLine(L"OnRestored (from maximized)");
+					//	_paused = false;
+					_maximized = false;					
+					SendResizeEvent(_windowWidth, _windowHeight);
+				}
+				else if (_sizeMoving)
+				{
+				}
+				else
+				{
+					//_eLog.LogLine(L"OnRestored");
+					SendResizeEvent(_windowWidth, _windowHeight);
+				}
+			}
+			return 0;
+		}
+		case WM_ENTERSIZEMOVE:
+		{
+			//_eLog.LogLine(L"OnEnterSizeMove");
+			//_paused = true;
+			_sizeMoving = true;
+			return 0;
+		}
+		case WM_EXITSIZEMOVE:
+		{
+			//_eLog.LogLine(L"OnExitSizeMove");
+			//_paused = false;
+			_sizeMoving = false;
+			SendResizeEvent(_windowWidth, _windowHeight);
 			return 0;
 		}
 		case WM_MENUCHAR:
@@ -142,9 +213,11 @@ LRESULT EAppWindow::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		case WM_MBUTTONDOWN:
 		case WM_RBUTTONDOWN:
 		{
-			for (auto iterator = _windowEventListeners.begin(), end = _windowEventListeners.end(); iterator != end; ++iterator) 
+			SetCapture(_window);
+
+			for (auto iterator = _windowEventListeners.begin(), end = _windowEventListeners.end(); iterator != end; ++iterator)
 			{
-				(*iterator)->OnMouseMove(wParam, GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
+				(*iterator)->OnMouseDown(wParam, GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
 			}
 			return 0;
 		}
@@ -156,6 +229,8 @@ LRESULT EAppWindow::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			{
 				(*iterator)->OnMouseUp(wParam, GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
 			}			
+
+			ReleaseCapture();
 			return 0;
 		}
 		case WM_MOUSEMOVE:
@@ -169,6 +244,14 @@ LRESULT EAppWindow::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	}
 
 	return DefWindowProc(hWnd, msg, wParam, lParam);
+}
+
+void EAppWindow::SendResizeEvent(int width, int height)
+{
+	for (auto iterator = _windowEventListeners.begin(), end = _windowEventListeners.end(); iterator != end; ++iterator)
+	{
+		(*iterator)->OnResize(width, height);
+	}
 }
 
 void EAppWindow::BeginUpdate()

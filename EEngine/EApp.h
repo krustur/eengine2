@@ -27,6 +27,7 @@ public:
 	virtual void OnMouseDown(WPARAM buttonState, int x, int y);
 	virtual void OnMouseUp(WPARAM buttonState, int x, int y);
 	virtual void OnMouseMove(WPARAM buttonState, int x, int y);
+	virtual void OnResize(int width, int height);
 
 private:
 	HINSTANCE _hInstance;

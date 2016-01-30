@@ -2,15 +2,22 @@
 
 #include <d3d11.h>
 #include "ELog.h"
+#include "IEWindowEventListener.h"
 
-class ERenderer final
+class ERenderer final : public IEWindowEventListener
 {
 public:
 	ERenderer(HWND windowHandle);
 	~ERenderer();
 
 	virtual bool Init(); 	
-	void OnResize();
+
+	void OnActivate();
+	void OnDeactivate();
+	void OnMouseDown(WPARAM buttonState, int x, int y);
+	void OnMouseUp(WPARAM buttonState, int x, int y);
+	void OnMouseMove(WPARAM buttonState, int x, int y);
+	void OnResize(int width, int height);
 
 	ID3D11Device *GetD3dDevice();
 	ID3D11DeviceContext* GetD3dImmediateContext();
@@ -22,17 +29,14 @@ public:
 private:
 	HWND _windowHandle;
 
+	void OnResize();
+
 	int _clientWidth;
 	int _clientHeight;
 	bool _enable4xMsaa;
 	UINT _4xMsaaQuality;
 
-	//bool _appPaused;
-	//bool _minimized;
-	//bool _maximized;
-	//bool _resizing;
-
-	ELog *_eLog;
+	ELog _eLog;
 
 	ID3D11Device* _d3dDevice;
 	ID3D11DeviceContext* _d3dImmediateContext;

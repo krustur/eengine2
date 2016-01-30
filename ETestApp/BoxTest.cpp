@@ -191,7 +191,7 @@ void BoxTest::BuildFX()
 
 void BoxTest::BuildVertexLayout()
 {
-	D3D11_INPUT_ELEMENT_DESC vertexDescription[] =
+	D3D11_INPUT_ELEMENT_DESC inputElementDescriptions[] =
 	{
 		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
 		{ "COLOR",    0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 }
@@ -199,7 +199,7 @@ void BoxTest::BuildVertexLayout()
 
 	D3DX11_PASS_DESC effectPassDescription;
 	_effectTechnique->GetPassByIndex(0)->GetDesc(&effectPassDescription);
-	HRESULT hresult = (_eRenderer->GetD3dDevice()->CreateInputLayout(vertexDescription, 2, effectPassDescription.pIAInputSignature, effectPassDescription.IAInputSignatureSize, &_inputLayout));
+	HRESULT hresult = (_eRenderer->GetD3dDevice()->CreateInputLayout(inputElementDescriptions, 2, effectPassDescription.pIAInputSignature, effectPassDescription.IAInputSignatureSize, &_inputLayout));
 	if (FAILED(hresult))
 	{
 		_eLogger.LogHResult(hresult);
@@ -264,29 +264,19 @@ void BoxTest::OnResize()
 	XMStoreFloat4x4(&_projectionMatrix, P);
 }
 
-void BoxTest::OnActivate()
-{
+void BoxTest::OnActivate() {}
 
-}
-
-void BoxTest::OnDeactivate()
-{
-
-}
+void BoxTest::OnDeactivate() {}
 
 void BoxTest::OnMouseDown(WPARAM btnState, int x, int y)
 {
 	_lastMousePos.x = x;
 	_lastMousePos.y = y;
-
-	//SetCapture(window);
 }
 
-void BoxTest::OnMouseUp(WPARAM btnState, int x, int y)
-{
-	//ReleaseCapture();
-}
+void BoxTest::OnMouseUp(WPARAM btnState, int x, int y) {}
 
+void BoxTest::OnResize(int width, int height) {}
 
 static float Clamp(const float& x, const float& low, const float& high)
 {

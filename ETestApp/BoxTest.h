@@ -30,6 +30,7 @@ public:
 	void OnMouseDown(WPARAM buttonState, int x, int y);
 	void OnMouseUp(WPARAM buttonState, int x, int y);
 	void OnMouseMove(WPARAM buttonState, int x, int y);
+	void OnResize(int width, int height);
 
 private:
 	EApp* _eApp;
