@@ -18,6 +18,7 @@ public:
 	void SetWindowEventListener(IEWindowEventListener *windowEventListener);
 
 	void BeginUpdate();
+	void UpdatePausedState(bool paused);
 	void UpdateFramesPerSeconds(float framesPerSeconds);
 	void UpdateFrameTime(float frameTime);
 	void EndUpdate();
@@ -33,6 +34,7 @@ private:
 
 	std::list<IEWindowEventListener *> _windowEventListeners;	
 
+	bool _paused;
 	float _framesPerSeconds;
 	float _frameTime;	
 };

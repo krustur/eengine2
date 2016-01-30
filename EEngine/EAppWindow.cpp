@@ -8,7 +8,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 EAppWindow::EAppWindow(HINSTANCE hInstance, int nShowCmd) :
 	_hInstance(hInstance),
-	_nShowCmd(nShowCmd)
+	_nShowCmd(nShowCmd),
+	_paused(false),
+	_framesPerSeconds(0.0f),
+	_frameTime(0.0f)
 {
 }
 
@@ -133,6 +136,7 @@ LRESULT EAppWindow::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		{
 			((MINMAXINFO*)lParam)->ptMinTrackSize.x = 640;
 			((MINMAXINFO*)lParam)->ptMinTrackSize.y = 480;
+			return 0;
 		}
 		case WM_LBUTTONDOWN:
 		case WM_MBUTTONDOWN:
@@ -142,7 +146,7 @@ LRESULT EAppWindow::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			{
 				(*iterator)->OnMouseMove(wParam, GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
 			}
-			break;
+			return 0;
 		}
 		case WM_LBUTTONUP:
 		case WM_MBUTTONUP:
@@ -152,7 +156,7 @@ LRESULT EAppWindow::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			{
 				(*iterator)->OnMouseUp(wParam, GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
 			}			
-			break;
+			return 0;
 		}
 		case WM_MOUSEMOVE:
 		{
@@ -160,14 +164,20 @@ LRESULT EAppWindow::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			{
 				(*iterator)->OnMouseMove(wParam, GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
 			}
-			break;			
+			return 0;
 		}
 	}
+
 	return DefWindowProc(hWnd, msg, wParam, lParam);
 }
 
 void EAppWindow::BeginUpdate()
 {
+}
+
+void EAppWindow::UpdatePausedState(bool paused)
+{
+	_paused = paused;
 }
 
 void EAppWindow::UpdateFramesPerSeconds(float framesPerSeconds)
@@ -184,6 +194,10 @@ void EAppWindow::EndUpdate()
 {
 	std::wostringstream outs;
 	outs.precision(6);
+	if (_paused)
+	{
+		outs << "[PAUSED] ";
+	}
 	outs << L"FPS: " << _framesPerSeconds << L"    " << L"Frame time: " << _frameTime << L" (ms)";
 	SetWindowText(_window, outs.str().c_str());
 }

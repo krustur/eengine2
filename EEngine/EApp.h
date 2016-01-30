@@ -17,7 +17,6 @@ public:
 	void Init();
 	int Run();
 
-	ELog *GetLog();
 	ERenderer *GetRenderer();
 
 	void SetEffect(IEEffect *eEffect);
@@ -33,10 +32,11 @@ private:
 	HINSTANCE _hInstance;
 	HWND _windowHandle;
 
-	ELog *_eLog;
-	ERenderer *_eRenderer;
-	ETimer *_eTimer;
+	ELog _eLog;
+	ERenderer _eRenderer;
+	ETimer _eTimer;
 	bool _paused;
+
 
 	IEEffect *_eEffect;
 	IEAppStatsListener *_eAppStatsListener;

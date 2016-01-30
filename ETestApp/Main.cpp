@@ -1,12 +1,17 @@
 #include <windows.h>
 #include "EAppFactory.h"
 #include "EAppWindowFactory.h"
+#include "ELog.h"
 #include "BoxTest.h"
 
 
 void TestCode()
 {
-
+	auto log = ELog(L"knut");
+	log.Log("Log (char*)");
+	log.LogLine("LogLine (char*)");
+	log.Log(L"Log (LPTSTR)");
+	log.LogLine(L"LogLing (LPTSTR)");
 }
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pCmsLine, int nShowCmd)

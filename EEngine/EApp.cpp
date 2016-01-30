@@ -5,31 +5,29 @@
 EApp::EApp(HINSTANCE hInstance, HWND windowHandle)	:
 	_hInstance(hInstance),
 	_windowHandle(windowHandle),
-	_eLog(new ELog()),
-	_eRenderer(new ERenderer(windowHandle)),
-	_eTimer(new ETimer()),
+	_eLog(ELog(L"EApp")),
+	_eRenderer(ERenderer(windowHandle)),
+	_eTimer(ETimer()),
 	_paused(false),
 	_eEffect(nullptr),
 	_eAppStatsListener(nullptr)
 {	
 }
 
-
 EApp::~EApp()
 {
-	delete _eRenderer;
 }
 
 void EApp::Init()
 {
-	_eRenderer->Init();
+	_eRenderer.Init();
 }
 
 int EApp::Run()
 {
 	MSG message = { 0 };
 
-	_eTimer->Init();
+	_eTimer.Init();
 
 	while (message.message != WM_QUIT)
 	{
@@ -40,14 +38,15 @@ int EApp::Run()
 		}
 		else
 		{
-			_eTimer->Tick();
+			_eTimer.Tick();
+
+			UpdateStats();
 
 			if (!_paused)
 			{
-				UpdateStats();
 				if (_eEffect != nullptr)
 				{
-					_eEffect->UpdateScene(_eTimer->GetDeltaTime());
+					_eEffect->UpdateScene(_eTimer.GetDeltaTime());
 					_eEffect->DrawScene();
 				}
 			}
@@ -61,15 +60,9 @@ int EApp::Run()
 	return static_cast<int>(message.wParam);
 }
 
-
-ELog *EApp::GetLog()
-{
-	return _eLog;
-}
-
 ERenderer * EApp::GetRenderer()
 {
-	return _eRenderer;
+	return &_eRenderer;
 }
 
 void EApp::SetEffect(IEEffect *eEffect)
@@ -87,6 +80,7 @@ void EApp::UpdateStats()
 	if (_eAppStatsListener != nullptr)
 	{
 		_eAppStatsListener->BeginUpdate();
+		_eAppStatsListener->UpdatePausedState(_paused);
 	}
 
 	static int frameCount = 0;
@@ -94,7 +88,7 @@ void EApp::UpdateStats()
 
 	frameCount++;
 
-	if ((_eTimer->GetTotalTime() - timeElapsed) >= 1.0f)
+	if ((_eTimer.GetTotalTime() - timeElapsed) >= 1.0f)
 	{
 		float framesPerSeconds = (float)frameCount;
 		float frameTime = 1000.0f / framesPerSeconds;
@@ -118,13 +112,13 @@ void EApp::UpdateStats()
 void EApp::OnActivate()
 {
 	_paused = false;
-	_eTimer->Resume();
+	_eTimer.Resume();
 }
 
 void EApp::OnDeactivate()
 {
 	_paused = true;
-	_eTimer->Pause();
+	_eTimer.Pause();
 }
 
 void EApp::OnMouseDown(WPARAM buttonState, int x, int y)

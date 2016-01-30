@@ -32,6 +32,7 @@ struct Vertex
 BoxTest::BoxTest(EApp *eApp) :
 	_eApp(eApp),
 	_eRenderer(eApp->GetRenderer()),
+	_eLogger(ELog(L"BoxTest")),
 	_vertexBuffer(0),
 	_indexBuffer(0),
 	_effect(0),
@@ -112,7 +113,7 @@ void BoxTest::BuildGeometryBuffers()
 	HRESULT hresult = (_eRenderer->GetD3dDevice()->CreateBuffer(&vertexBufferDescription, &vertexInitialData, &_vertexBuffer));
 	if (FAILED(hresult))
 	{
-		ELog::LogHResult(hresult);
+		_eLogger.LogHResult(hresult);
 	}
 
 	UINT indices[] = {
@@ -143,7 +144,7 @@ void BoxTest::BuildGeometryBuffers()
 	hresult = (_eRenderer->GetD3dDevice()->CreateBuffer(&indicesBufferDescription, &indicesInitializationData, &_indexBuffer));
 	if (FAILED(hresult))
 	{
-		ELog::LogHResult(hresult);
+		_eLogger.LogHResult(hresult);
 	}
 }
 
@@ -161,7 +162,7 @@ void BoxTest::BuildFX()
 	
 	if (compilationMessages != 0)
 	{
-		_eApp->GetLog()->Log((char*)compilationMessages->GetBufferPointer());
+		_eLogger.LogLine((char *)compilationMessages->GetBufferPointer());
 
 		compilationMessages->Release();
 		compilationMessages = 0;
@@ -169,13 +170,13 @@ void BoxTest::BuildFX()
 
 	if (FAILED(hresult))
 	{
-		ELog::LogHResult(hresult);
+		_eLogger.LogHResult(hresult);
 	}
 	
 	hresult = (D3DX11CreateEffectFromMemory(compiledShader->GetBufferPointer(), compiledShader->GetBufferSize(), 0, _eRenderer->GetD3dDevice(), &_effect));
 	if (FAILED(hresult))
 	{
-		ELog::LogHResult(hresult);
+		_eLogger.LogHResult(hresult);
 	}
 
 	if (compiledShader)
@@ -201,13 +202,13 @@ void BoxTest::BuildVertexLayout()
 	HRESULT hresult = (_eRenderer->GetD3dDevice()->CreateInputLayout(vertexDescription, 2, effectPassDescription.pIAInputSignature, effectPassDescription.IAInputSignatureSize, &_inputLayout));
 	if (FAILED(hresult))
 	{
-		ELog::LogHResult(hresult);
+		_eLogger.LogHResult(hresult);
 	}
 }
 
 void BoxTest::UpdateScene(float deltaTime)
 {
-	//_theta += 1.0f * deltaTime;
+	_theta += 1.0f * deltaTime;
 
 	float x = _radius*sinf(_phi)*cosf(_theta);
 	float z = _radius*sinf(_phi)*sinf(_theta);
@@ -253,7 +254,7 @@ void BoxTest::DrawScene()
 	HRESULT hresult = (_eRenderer->GetSwapChain()->Present(0, 0));
 	if (FAILED(hresult))
 	{
-		ELog::LogHResult(hresult);
+		_eLogger.LogHResult(hresult);
 	}
 }
 
