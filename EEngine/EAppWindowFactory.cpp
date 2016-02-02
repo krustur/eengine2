@@ -1,6 +1,9 @@
 #include "EAppWindowFactory.h"
 
-EAppWindow & EAppWindowFactory::CreateAppWindow(HINSTANCE hInstance, int nShowCmd)
+namespace EEngine
 {
-	return _raiiFactory.Create(new EAppWindow(hInstance, nShowCmd)); 
+	EAppWindow & EAppWindowFactory::CreateAppWindow(HINSTANCE hInstance, int nShowCmd)
+	{
+		return _raiiFactory.Create(new EAppWindow(hInstance, nShowCmd));
+	}
 }

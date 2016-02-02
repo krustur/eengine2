@@ -4,11 +4,13 @@
 #include "EAppWindow.h"
 #include "ERaiiFactory.h"
 
-class EAppWindowFactory final
+namespace EEngine
 {
-public:
-	EAppWindow &CreateAppWindow(HINSTANCE hInstance, int nShowCmd);
-private:
-	ERaiiFactory<EAppWindow> _raiiFactory;
-};
-
+	class EAppWindowFactory final
+	{
+	public:
+		EAppWindow &CreateAppWindow(HINSTANCE hInstance, int nShowCmd);
+	private:
+		ERaiiFactory<EAppWindow> _raiiFactory;
+	};
+}

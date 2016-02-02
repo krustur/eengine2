@@ -6,47 +6,49 @@
 #include "IEWindowEventListener.h"
 #include "ELog.h"
 
-class EAppWindow : public IEAppStatsListener
+namespace EEngine
 {
-public:
-	EAppWindow(HINSTANCE hInstance, int nShowCmd);
-	virtual ~EAppWindow();
-	
-	bool Init();
-	void Open();
-	const HWND &GetWindowHandle() const;
+	class EAppWindow : public IEAppStatsListener
+	{
+	public:
+		EAppWindow(HINSTANCE hInstance, int nShowCmd);
+		virtual ~EAppWindow();
 
-	void SetWindowEventListener(IEWindowEventListener *windowEventListener);
+		bool Init();
+		void Open();
+		const HWND &GetWindowHandle() const;
 
-	void BeginUpdate();
-	void UpdatePausedState(bool paused);
-	void UpdateFramesPerSeconds(float framesPerSeconds);
-	void UpdateFrameTime(float frameTime);
-	void EndUpdate();
+		void SetWindowEventListener(IEWindowEventListener *windowEventListener);
 
-	static LRESULT CALLBACK StaticWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
-	LRESULT WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+		void BeginUpdate();
+		void UpdatePausedState(bool paused);
+		void UpdateFramesPerSeconds(float framesPerSeconds);
+		void UpdateFrameTime(float frameTime);
+		void EndUpdate();
 
-private:
-	HINSTANCE _hInstance;
-	int _nShowCmd;
+		static LRESULT CALLBACK StaticWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+		LRESULT WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
-	HWND _window;
+	private:
+		HINSTANCE _hInstance;
+		int _nShowCmd;
 
-	ELog _eLog;
+		HWND _window;
 
-	std::list<IEWindowEventListener *> _windowEventListeners;	
+		ELog _eLog;
 
-	bool _paused;
-	float _framesPerSeconds;
-	float _frameTime;	
+		std::list<IEWindowEventListener *> _windowEventListeners;
 
-	int _windowWidth;
-	int _windowHeight;
-	bool _sizeMoving;
-	bool _maximized;
-	bool _minimized;
+		bool _paused;
+		float _framesPerSeconds;
+		float _frameTime;
 
-	void SendResizeEvent(int width, int height);
-};
+		int _windowWidth;
+		int _windowHeight;
+		bool _sizeMoving;
+		bool _maximized;
+		bool _minimized;
 
+		void SendResizeEvent(int width, int height);
+	};
+}
