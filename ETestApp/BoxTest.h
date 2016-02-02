@@ -10,7 +10,7 @@
 
 
 
-class BoxTest : public IEEffect, public IEWindowEventListener
+class BoxTest : public EEngine::IEEffect, public EEngine::IEWindowEventListener
 {
 public:
 	BoxTest(EEngine::EApp *eApp);
