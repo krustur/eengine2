@@ -4,14 +4,14 @@
 #include "EApp.h"
 #include "ERaiiFactory.h"
 
-class EAppFactory 
+namespace EEngine
 {
-public:
-	//EAppFactory(){}	
+	class EAppFactory
+	{
+	public:
+		EApp & CreateApp(HINSTANCE instance, HWND windowHandle);
 
-	EApp & CreateApp(HINSTANCE instance, HWND windowHandle);
-
-private:
-	ERaiiFactory<EApp> _raiiFactory;
-};
-
+	private:
+		ERaiiFactory<EApp> _raiiFactory;
+	};
+}

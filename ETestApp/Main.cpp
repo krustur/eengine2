@@ -4,6 +4,7 @@
 #include "ELog.h"
 #include "BoxTest.h"
 
+using namespace EEngine;
 
 void TestCode()
 {

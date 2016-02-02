@@ -8,41 +8,43 @@
 #include "IEAppStatsListener.h"
 #include "IEWindowEventListener.h"
 
-class EApp : public IEWindowEventListener
+namespace EEngine
 {
-public:
-	EApp(HINSTANCE hInstance, HWND windowHandle);
-	virtual ~EApp();
-	
-	void Init();
-	int Run();
+	class EApp : public IEWindowEventListener
+	{
+	public:
+		EApp(HINSTANCE hInstance, HWND windowHandle);
+		virtual ~EApp();
 
-	ERenderer *GetRenderer();
+		void Init();
+		int Run();
 
-	void SetEffect(IEEffect *eEffect);
-	void SetAppStatsListener(IEAppStatsListener *eAppStatsListener);
+		ERenderer *GetRenderer();
 
-	virtual void OnActivate();
-	virtual void OnDeactivate();
-	virtual void OnMouseDown(WPARAM buttonState, int x, int y);
-	virtual void OnMouseUp(WPARAM buttonState, int x, int y);
-	virtual void OnMouseMove(WPARAM buttonState, int x, int y);
-	virtual void OnResize(int width, int height);
+		void SetEffect(IEEffect *eEffect);
+		void SetAppStatsListener(IEAppStatsListener *eAppStatsListener);
 
-private:
-	HINSTANCE _hInstance;
-	HWND _windowHandle;
+		virtual void OnActivate();
+		virtual void OnDeactivate();
+		virtual void OnMouseDown(WPARAM buttonState, int x, int y);
+		virtual void OnMouseUp(WPARAM buttonState, int x, int y);
+		virtual void OnMouseMove(WPARAM buttonState, int x, int y);
+		virtual void OnResize(int width, int height);
 
-	ELog _eLog;
-	ERenderer _eRenderer;
-	ETimer _eTimer;
-	bool _paused;
+	private:
+		HINSTANCE _hInstance;
+		HWND _windowHandle;
+
+		ELog _eLog;
+		ERenderer _eRenderer;
+		ETimer _eTimer;
+		bool _paused;
 
 
-	IEEffect *_eEffect;
-	IEAppStatsListener *_eAppStatsListener;
+		IEEffect *_eEffect;
+		IEAppStatsListener *_eAppStatsListener;
 
-	void UpdateStats();
+		void UpdateStats();
 
-};
-
+	};
+}

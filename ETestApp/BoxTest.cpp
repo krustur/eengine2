@@ -30,7 +30,7 @@ struct Vertex
 	XMFLOAT4 Color;
 };
 
-BoxTest::BoxTest(EApp *eApp) :
+BoxTest::BoxTest(EEngine::EApp *eApp) :
 	_eApp(eApp),
 	_eRenderer(eApp->GetRenderer()),
 	_eLogger(L"BoxTest"),

@@ -13,7 +13,7 @@
 class BoxTest : public IEEffect, public IEWindowEventListener
 {
 public:
-	BoxTest(EApp *eApp);
+	BoxTest(EEngine::EApp *eApp);
 	~BoxTest();
 
 	void Init();
@@ -33,7 +33,7 @@ public:
 	void OnResize(int width, int height);
 
 private:
-	EApp* _eApp;
+	EEngine::EApp* _eApp;
 	ERenderer* _eRenderer;
 	ELog _eLogger;
 
