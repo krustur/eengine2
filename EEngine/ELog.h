@@ -7,41 +7,42 @@
 #include <sstream>
 #include <fstream>
 
-
-struct ELog
+namespace EEngine
 {
-public:
-	ELog::ELog(LPTSTR name);
-	~ELog();
-
-	template <typename T> friend ELog& operator<<(ELog& eLog, const T& t)
+	struct ELog
 	{
-		eLog.formatStream << t;
-		return eLog;
-	}
+	public:
+		ELog::ELog(LPTSTR name);
+		~ELog();
 
-	friend ELog& operator<<(ELog& eLog, std::ostringstream& (*pf)(std::ostringstream&))
-	{
-		eLog.formatStream << pf;
-		return eLog;
-	}
+		template <typename T> friend ELog& operator<<(ELog& eLog, const T& t)
+		{
+			eLog.formatStream << t;
+			return eLog;
+		}
 
-	void LogHResult(HRESULT hresult);
-	void Log(const char *string);
-	void Log(LPTSTR string);
-	void LogLine(const char *string);
-	void LogLine(LPTSTR string);
-	void FormatLine(ELog &eLog);
-	
-private:
-	void LogHeader();
+		friend ELog& operator<<(ELog& eLog, std::ostringstream& (*pf)(std::ostringstream&))
+		{
+			eLog.formatStream << pf;
+			return eLog;
+		}
 
-	std::string GetDateTimeString();
+		void LogHResult(HRESULT hresult);
+		void Log(const char *string);
+		void Log(LPTSTR string);
+		void LogLine(const char *string);
+		void LogLine(LPTSTR string);
+		void FormatLine(ELog &eLog);
 
-	void StaticInitialization();
-	static FILE *_stream;
-	LPTSTR _name;
+	private:
+		void LogHeader();
 
-	std::ostringstream formatStream;
-};
+		std::string GetDateTimeString();
 
+		void StaticInitialization();
+		static FILE *_stream;
+		LPTSTR _name;
+
+		std::ostringstream formatStream;
+	};
+}

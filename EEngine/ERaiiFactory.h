@@ -2,36 +2,39 @@
 
 #include <vector>
 
-template <typename T>
-class ERaiiFactory
+namespace EEngine
 {
-public:
-	ERaiiFactory() {}
-	~ERaiiFactory()
+	template <typename T>
+	class ERaiiFactory
 	{
-		while (!container.empty())
+	public:
+		ERaiiFactory() {}
+		~ERaiiFactory()
 		{
-			const T* p = container.back();
-			container.pop_back();
-			delete p;
+			while (!container.empty())
+			{
+				const T* p = container.back();
+				container.pop_back();
+				delete p;
+			}
 		}
-	}
 
-	//T* Create(T* p)
-	//{
-	//	container.push_back(p);
-	//	return p;
-	//}
+		//T* Create(T* p)
+		//{
+		//	container.push_back(p);
+		//	return p;
+		//}
 
-	T& Create(T* p)
-	{
-		container.push_back(p);
-		return *p;
-	}
-private:
-	std::vector<const T*> container;
+		T& Create(T* p)
+		{
+			container.push_back(p);
+			return *p;
+		}
+	private:
+		std::vector<const T*> container;
 
-	// non-copyable
-	ERaiiFactory(const ERaiiFactory&);
-	ERaiiFactory& operator= (const ERaiiFactory&);
-};
+		// non-copyable
+		ERaiiFactory(const ERaiiFactory&);
+		ERaiiFactory& operator= (const ERaiiFactory&);
+	};
+}

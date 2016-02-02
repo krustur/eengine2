@@ -1,4 +1,5 @@
 #include "EAppWindow.h"
+
 #include <Windows.h>
 #include <Windowsx.h>
 #include <sstream>

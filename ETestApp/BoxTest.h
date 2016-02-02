@@ -34,8 +34,8 @@ public:
 
 private:
 	EEngine::EApp* _eApp;
-	ERenderer* _eRenderer;
-	ELog _eLogger;
+	EEngine::ERenderer* _eRenderer;
+	EEngine::ELog _eLogger;
 
 	ID3D11Buffer* _vertexBuffer;
 	ID3D11Buffer* _indexBuffer;

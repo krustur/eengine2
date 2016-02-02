@@ -1,6 +1,8 @@
 #include "EApp.h"
+
 #include <sstream>
 #include <iostream>
+
 #include "ELog.h"
 
 namespace EEngine
