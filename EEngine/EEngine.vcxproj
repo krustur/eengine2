@@ -24,6 +24,7 @@
     <ClCompile Include="EAppWindow.cpp" />
     <ClCompile Include="EAppWindowFactory.cpp" />
     <ClCompile Include="EColor.cpp" />
+    <ClCompile Include="EMath.cpp" />
     <ClCompile Include="ERenderer.cpp" />
     <ClCompile Include="ELog.cpp" />
     <ClCompile Include="ETimer.cpp" />
@@ -34,6 +35,7 @@
     <ClInclude Include="EAppWindow.h" />
     <ClInclude Include="EAppWindowFactory.h" />
     <ClInclude Include="EColor.h" />
+    <ClInclude Include="EMath.h" />
     <ClInclude Include="ERenderer.h" />
     <ClInclude Include="ELog.h" />
     <ClInclude Include="ERaiiFactory.h" />

@@ -7,6 +7,7 @@
 
 #include "ELog.h"
 #include "EColor.h"
+#include "EMath.h"
 
 #include "d3dx11Effect.h"
 
@@ -28,8 +29,8 @@ BoxTest::BoxTest(EEngine::EApp *eApp) :
 	_effectTechnique(0),
 	_effectWorldViewProj(0),
 	_inputLayout(0),
-	_theta(1.5f*3.1415926535f),
-	_phi(0.25f*3.1415926535f),
+	_theta(1.5f*EEngine::EMath::Pi),
+	_phi(0.25f*EEngine::EMath::Pi),
 	_radius(5.0f)
 {
 	_lastMousePos.x = 0;
@@ -249,7 +250,7 @@ void BoxTest::DrawScene()
 
 void BoxTest::OnResize()
 {
-	XMMATRIX P = XMMatrixPerspectiveFovLH(0.25f*3.1415926535f, _eRenderer->GetAspectRatio(), 1.0f, 1000.0f);
+	XMMATRIX P = XMMatrixPerspectiveFovLH(0.25f*EEngine::EMath::Pi, _eRenderer->GetAspectRatio(), 1.0f, 1000.0f);
 	XMStoreFloat4x4(&_projectionMatrix, P);
 }
 
@@ -282,7 +283,7 @@ void BoxTest::OnMouseMove(WPARAM btnState, int x, int y)
 		_theta -= dx;
 		_phi -= dy;
 
-		_phi = Clamp(_phi, 0.1f, 3.1415926535f - 0.1f);
+		_phi = Clamp(_phi, 0.1f, EEngine::EMath::Pi - 0.1f);
 	}
 	else if ((btnState & MK_RBUTTON) != 0)
 	{
