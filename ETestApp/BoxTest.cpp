@@ -4,30 +4,18 @@
 #include <DirectXMath.h>
 #include <d3dcompiler.h>
 #include <iostream>
+
 #include "ELog.h"
+#include "EColor.h"
+
 #include "d3dx11Effect.h"
 
 using namespace DirectX;
 
-namespace Colors
-{
-	XMGLOBALCONST XMVECTORF32 White = { 1.0f, 1.0f, 1.0f, 1.0f };
-	XMGLOBALCONST XMVECTORF32 Black = { 0.0f, 0.0f, 0.0f, 1.0f };
-	XMGLOBALCONST XMVECTORF32 Red = { 1.0f, 0.0f, 0.0f, 1.0f };
-	XMGLOBALCONST XMVECTORF32 Green = { 0.0f, 1.0f, 0.0f, 1.0f };
-	XMGLOBALCONST XMVECTORF32 Blue = { 0.0f, 0.0f, 1.0f, 1.0f };
-	XMGLOBALCONST XMVECTORF32 Yellow = { 1.0f, 1.0f, 0.0f, 1.0f };
-	XMGLOBALCONST XMVECTORF32 Cyan = { 0.0f, 1.0f, 1.0f, 1.0f };
-	XMGLOBALCONST XMVECTORF32 Magenta = { 1.0f, 0.0f, 1.0f, 1.0f };
-
-	XMGLOBALCONST XMVECTORF32 Silver = { 0.75f, 0.75f, 0.75f, 1.0f };
-	XMGLOBALCONST XMVECTORF32 LightSteelBlue = { 0.69f, 0.77f, 0.87f, 1.0f };
-}
-
 struct Vertex
 {
 	XMFLOAT3 Pos;
-	XMFLOAT4 Color;
+	EEngine::EColor Color;
 };
 
 BoxTest::BoxTest(EEngine::EApp *eApp) :
@@ -92,14 +80,14 @@ void BoxTest::BuildGeometryBuffers()
 {
 	Vertex vertices[] =
 	{
-		{ XMFLOAT3(-1.0f, -1.0f, -1.0f), (XMFLOAT4)Colors::White },
-		{ XMFLOAT3(-1.0f, +1.0f, -1.0f), (XMFLOAT4)Colors::Black },
-		{ XMFLOAT3(+1.0f, +1.0f, -1.0f), (XMFLOAT4)Colors::Red },
-		{ XMFLOAT3(+1.0f, -1.0f, -1.0f), (XMFLOAT4)Colors::Green },
-		{ XMFLOAT3(-1.0f, -1.0f, +1.0f), (XMFLOAT4)Colors::Blue },
-		{ XMFLOAT3(-1.0f, +1.0f, +1.0f), (XMFLOAT4)Colors::Yellow },
-		{ XMFLOAT3(+1.0f, +1.0f, +1.0f), (XMFLOAT4)Colors::Cyan },
-		{ XMFLOAT3(+1.0f, -1.0f, +1.0f), (XMFLOAT4)Colors::Magenta }
+		{ XMFLOAT3(-1.0f, -1.0f, -1.0f), EEngine::Colors::White },
+		{ XMFLOAT3(-1.0f, +1.0f, -1.0f), EEngine::Colors::Black },
+		{ XMFLOAT3(+1.0f, +1.0f, -1.0f), EEngine::Colors::Red },
+		{ XMFLOAT3(+1.0f, -1.0f, -1.0f), EEngine::Colors::Green },
+		{ XMFLOAT3(-1.0f, -1.0f, +1.0f), EEngine::Colors::Blue },
+		{ XMFLOAT3(-1.0f, +1.0f, +1.0f), EEngine::Colors::Yellow },
+		{ XMFLOAT3(+1.0f, +1.0f, +1.0f), EEngine::Colors::Cyan },
+		{ XMFLOAT3(+1.0f, -1.0f, +1.0f), EEngine::Colors::Magenta }
 	};
 
 	D3D11_BUFFER_DESC vertexBufferDescription;
@@ -225,8 +213,8 @@ void BoxTest::UpdateScene(float deltaTime)
 
 void BoxTest::DrawScene()
 {
-	_eRenderer->GetD3dImmediateContext()->ClearRenderTargetView(_eRenderer->GetD3dRenderTargetView(), reinterpret_cast<const float*>(&Colors::Magenta));
-	_eRenderer->GetD3dImmediateContext()->ClearDepthStencilView(_eRenderer->GetD3dDepthStencilView(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+	_eRenderer->ClearRenderTargetView(EEngine::Colors::LightSteelBlue);
+	_eRenderer->ClearDepthStencilView(EEngine::ERENDERER_CLEAR_DEPTH | EEngine::ERENDERER_CLEAR_STENCIL, 1.0f, 0);
 
 	_eRenderer->GetD3dImmediateContext()->IASetInputLayout(_inputLayout);
 	_eRenderer->GetD3dImmediateContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);

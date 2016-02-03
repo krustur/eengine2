@@ -3,9 +3,16 @@
 #include <d3d11.h>
 #include "ELog.h"
 #include "IEWindowEventListener.h"
+#include "EColor.h"
 
 namespace EEngine
 {
+	typedef enum ERENDERER_CLEAR_FLAG
+	{
+		ERENDERER_CLEAR_DEPTH = 0x1L,
+		ERENDERER_CLEAR_STENCIL = 0x2L
+	} 	ERENDERER_CLEAR_FLAG;
+
 	class ERenderer final : public IEWindowEventListener
 	{
 	public:
@@ -20,6 +27,9 @@ namespace EEngine
 		void OnMouseUp(WPARAM buttonState, int x, int y);
 		void OnMouseMove(WPARAM buttonState, int x, int y);
 		void OnResize(int width, int height);
+
+		void ClearRenderTargetView(EColor color);
+		void ClearDepthStencilView(unsigned int clearFlags, float depth, int stencil);
 
 		ID3D11Device *GetD3dDevice();
 		ID3D11DeviceContext* GetD3dImmediateContext();

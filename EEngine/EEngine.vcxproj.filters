@@ -36,6 +36,9 @@
     <ClCompile Include="ETimer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="EColor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EApp.h">
@@ -72,6 +75,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="IEWindowEventListener.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EColor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

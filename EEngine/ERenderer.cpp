@@ -271,6 +271,19 @@ namespace EEngine
 		_d3dImmediateContext->RSSetViewports(1, &_screenViewport);
 	}
 
+	void ERenderer::ClearRenderTargetView(EColor color)
+	{
+		_d3dImmediateContext->ClearRenderTargetView(_renderTargetView, reinterpret_cast<const float*>(&color));
+
+
+	}
+
+	void ERenderer::ClearDepthStencilView(unsigned int clearFlags, float depth, int stencil)
+	{
+		_d3dImmediateContext->ClearDepthStencilView(_depthStencilView, clearFlags, depth, stencil);
+
+	}
+
 	void ERenderer::OnActivate() {}
 
 	void ERenderer::OnDeactivate() {}
