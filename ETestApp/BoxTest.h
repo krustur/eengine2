@@ -1,14 +1,11 @@
 #pragma once
 
-#include <d3d11.h>
-#include "d3dx11effect.h"
 #include "Eapp.h"
-#include "ERenderer.h"
+#include "EMeshGenerator.h"
+#include "EMeshRenderer.h"
 #include "IEEffect.h"
 #include "IEWindowEventListener.h"
 #include <DirectXMath.h>
-
-
 
 class BoxTest : public EEngine::IEEffect, public EEngine::IEWindowEventListener
 {
@@ -18,12 +15,9 @@ public:
 
 	void Init();
 
-	void BuildGeometryBuffers();
-	void BuildFX();
-	void BuildVertexLayout();
-
 	void UpdateScene(float deltaTime);
 	void DrawScene();
+
 	void OnResize();
 	void OnActivate();
 	void OnDeactivate();
@@ -37,14 +31,8 @@ private:
 	EEngine::ERenderer* _eRenderer;
 	EEngine::ELog _eLogger;
 
-	ID3D11Buffer* _vertexBuffer;
-	ID3D11Buffer* _indexBuffer;
-
-	ID3DX11Effect* _effect;
-	ID3DX11EffectTechnique* _effectTechnique;
-	ID3DX11EffectMatrixVariable* _effectWorldViewProj;
-
-	ID3D11InputLayout* _inputLayout;
+	EEngine::EMeshGenerator _meshGenerator;
+	EEngine::EMeshRenderer _meshRenderer;
 
 	DirectX::XMFLOAT4X4 _worldMatrix;
 	DirectX::XMFLOAT4X4 _viewMatrix;
@@ -55,5 +43,7 @@ private:
 	float _radius;
 
 	POINT _lastMousePos;
+
+	EEngine::EMesh *_cube;
 };
 

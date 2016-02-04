@@ -25,6 +25,9 @@
     <ClCompile Include="EAppWindowFactory.cpp" />
     <ClCompile Include="EColor.cpp" />
     <ClCompile Include="EMath.cpp" />
+    <ClCompile Include="EMesh.cpp" />
+    <ClCompile Include="EMeshGenerator.cpp" />
+    <ClCompile Include="EMeshRenderer.cpp" />
     <ClCompile Include="ERenderer.cpp" />
     <ClCompile Include="ELog.cpp" />
     <ClCompile Include="ETimer.cpp" />
@@ -36,6 +39,9 @@
     <ClInclude Include="EAppWindowFactory.h" />
     <ClInclude Include="EColor.h" />
     <ClInclude Include="EMath.h" />
+    <ClInclude Include="EMesh.h" />
+    <ClInclude Include="EMeshGenerator.h" />
+    <ClInclude Include="EMeshRenderer.h" />
     <ClInclude Include="ERenderer.h" />
     <ClInclude Include="ELog.h" />
     <ClInclude Include="ERaiiFactory.h" />

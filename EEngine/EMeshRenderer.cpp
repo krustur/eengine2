@@ -1,0 +1,47 @@
+#include "EMeshRenderer.h"
+
+namespace EEngine
+{
+
+	EMeshRenderer::EMeshRenderer(ERenderer &renderer) :
+		_renderer(renderer),
+		_logger(L"EMeshRenderer")
+	{
+	}
+
+	EMeshRenderer::~EMeshRenderer()
+	{
+	}
+
+	void EMeshRenderer::RenderMesh(EMesh *mesh, DirectX::XMMATRIX *worldViewProj)
+	{
+		_renderer.ClearRenderTargetView(EEngine::Colors::LightSteelBlue);
+		_renderer.ClearDepthStencilView(EEngine::ERENDERER_CLEAR_DEPTH | EEngine::ERENDERER_CLEAR_STENCIL, 1.0f, 0);
+
+		_renderer.GetD3dImmediateContext()->IASetInputLayout(mesh->GetInputLayout());
+		_renderer.GetD3dImmediateContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+		UINT stride = mesh->GetStride();
+		UINT offset = 0;
+		auto vertexBuffer = mesh->GetVertexBuffer();
+		_renderer.GetD3dImmediateContext()->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
+		_renderer.GetD3dImmediateContext()->IASetIndexBuffer(mesh->GetIndexBuffer(), DXGI_FORMAT_R32_UINT, 0);
+
+		mesh->GetEffectWorldViewProj()->SetMatrix(reinterpret_cast<float*>(worldViewProj));
+
+		D3DX11_TECHNIQUE_DESC techniqueDescription;
+		mesh->GetEffectTechnique()->GetDesc(&techniqueDescription);
+		for (UINT p = 0; p < techniqueDescription.Passes; ++p)
+		{
+			mesh->GetEffectTechnique()->GetPassByIndex(p)->Apply(0, _renderer.GetD3dImmediateContext());
+
+			_renderer.GetD3dImmediateContext()->DrawIndexed(36, 0, 0);
+		}
+
+		HRESULT hresult = (_renderer.GetSwapChain()->Present(0, 0));
+		if (FAILED(hresult))
+		{
+			_logger.LogHResult(hresult);
+		}
+	}
+}
