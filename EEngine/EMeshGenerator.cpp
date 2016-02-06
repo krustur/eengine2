@@ -38,16 +38,17 @@ namespace EEngine
 
 	void EMeshGenerator::BuildGeometryBuffers(EMesh &mesh)
 	{
+		float size = 0.5f;
 		Vertex vertices[] =
 		{
-			{ DirectX::XMFLOAT3(-1.0f, -1.0f, -1.0f), EEngine::Colors::White },
-			{ DirectX::XMFLOAT3(-1.0f, +1.0f, -1.0f), EEngine::Colors::Black },
-			{ DirectX::XMFLOAT3(+1.0f, +1.0f, -1.0f), EEngine::Colors::Red },
-			{ DirectX::XMFLOAT3(+1.0f, -1.0f, -1.0f), EEngine::Colors::Green },
-			{ DirectX::XMFLOAT3(-1.0f, -1.0f, +1.0f), EEngine::Colors::Blue },
-			{ DirectX::XMFLOAT3(-1.0f, +1.0f, +1.0f), EEngine::Colors::Yellow },
-			{ DirectX::XMFLOAT3(+1.0f, +1.0f, +1.0f), EEngine::Colors::Cyan },
-			{ DirectX::XMFLOAT3(+1.0f, -1.0f, +1.0f), EEngine::Colors::Magenta }
+			{ DirectX::XMFLOAT3(-size, -size, -size), EEngine::Colors::White },
+			{ DirectX::XMFLOAT3(-size, +size, -size), EEngine::Colors::Black },
+			{ DirectX::XMFLOAT3(+size, +size, -size), EEngine::Colors::Red },
+			{ DirectX::XMFLOAT3(+size, -size, -size), EEngine::Colors::Green },
+			{ DirectX::XMFLOAT3(-size, -size, +size), EEngine::Colors::Blue },
+			{ DirectX::XMFLOAT3(-size, +size, +size), EEngine::Colors::Yellow },
+			{ DirectX::XMFLOAT3(+size, +size, +size), EEngine::Colors::Cyan },
+			{ DirectX::XMFLOAT3(+size, -size, +size), EEngine::Colors::Magenta }
 		};
 
 		D3D11_BUFFER_DESC vertexBufferDescription;
