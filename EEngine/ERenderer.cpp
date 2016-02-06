@@ -71,7 +71,8 @@ namespace EEngine
 	{
 		UINT createDeviceFlags = 0;
 #if defined(DEBUG) || defined(_DEBUG)  
-		createDeviceFlags |= D3D11_CREATE_DEVICE_DEBUG;
+		//createDeviceFlags |= D3D11_CREATE_DEVICE_DEBUG;
+		//createDeviceFlags |= D3D11_CREATE_DEVICE_DEBUGGABLE;
 #endif
 
 		D3D_FEATURE_LEVEL featureLevel;
