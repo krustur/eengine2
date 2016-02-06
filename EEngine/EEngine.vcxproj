@@ -31,6 +31,7 @@
     <ClCompile Include="ERenderer.cpp" />
     <ClCompile Include="ELog.cpp" />
     <ClCompile Include="ETimer.cpp" />
+    <ClCompile Include="GameObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EApp.h" />
@@ -46,6 +47,7 @@
     <ClInclude Include="ELog.h" />
     <ClInclude Include="ERaiiFactory.h" />
     <ClInclude Include="ETimer.h" />
+    <ClInclude Include="GameObject.h" />
     <ClInclude Include="IEEffect.h" />
     <ClInclude Include="IEAppStatsListener.h" />
     <ClInclude Include="IEWindowEventListener.h" />
