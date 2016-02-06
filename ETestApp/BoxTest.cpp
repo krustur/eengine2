@@ -20,14 +20,20 @@ BoxTest::BoxTest(EEngine::EApp *eApp) :
 	_theta(1.5f*EEngine::EMath::Pi),
 	_phi(0.25f*EEngine::EMath::Pi),
 	_radius(5.0f),
-	_cube(nullptr)
+	_cube1Mesh(nullptr),
+	_cube2Mesh(nullptr),
+	_cube3Mesh(nullptr),
+	_camera(0, 2, -5, 0, 0, 0),
+	_cube1(0, 0, 0, 0, 0, 0),
+	_cube2(-1.5, 0, 0, 0, 0, 30),
+	_cube3(3, 0, 1.5, 0, 45, 0)
 {
 	_lastMousePos.x = 0;
 	_lastMousePos.y = 0;
 
 	DirectX::XMMATRIX identity = DirectX::XMMatrixIdentity();
 	XMStoreFloat4x4(&_worldMatrix, identity);
-	XMStoreFloat4x4(&_viewMatrix, identity);
+
 	XMStoreFloat4x4(&_projectionMatrix, identity);
 }
 
@@ -37,7 +43,9 @@ BoxTest::~BoxTest()
 
 void BoxTest::Init()
 {
-	_cube = _meshGenerator.GenerateMesh();
+	_cube1Mesh = _meshGenerator.GenerateMesh();
+	_cube2Mesh = _meshGenerator.GenerateMesh();
+	_cube3Mesh = _meshGenerator.GenerateMesh();
 
 	BoxTest::OnResize();
 }
@@ -46,31 +54,60 @@ void BoxTest::UpdateScene(float deltaTime)
 {
 	_theta += 1.0f * deltaTime;
 
-	float x = _radius*sinf(_phi)*cosf(_theta);
-	float z = _radius*sinf(_phi)*sinf(_theta);
-	float y = _radius*cosf(_phi);
+	auto cube1Rotation = _cube1.GetRotation();
+	cube1Rotation.y += 1.0f * deltaTime;
+	_cube1.SetRotation(cube1Rotation);
 
-	DirectX::XMVECTOR position = DirectX::XMVectorSet(x, y, z, 1.0f);
-	DirectX::XMVECTOR lookAt = DirectX::XMVectorZero();
-	DirectX::XMVECTOR up = DirectX::XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
+	DirectX::XMMATRIX cube1Transform = _cube1.GetLocalTransform();
+	DirectX::XMMATRIX cube2Transform = _cube2.GetLocalTransform();
+	DirectX::XMMATRIX cube3Transform = _cube3.GetLocalTransform();
 
-	DirectX::XMMATRIX viewMatrix = DirectX::XMMatrixLookAtLH(position, lookAt, up);
-	XMStoreFloat4x4(&_viewMatrix, viewMatrix);
+
+	DirectX::XMMATRIX inverseCameraTransform = _camera.GetInversedLocalTransform();
+
+	DirectX::XMMATRIX cube1ViewTransform = cube1Transform * inverseCameraTransform;
+	XMStoreFloat4x4(&_cube1ViewMatrix, cube1ViewTransform);
+
+	DirectX::XMMATRIX cube2ViewTransform = cube2Transform * inverseCameraTransform;
+	XMStoreFloat4x4(&_cube2ViewMatrix, cube2ViewTransform);
+
+	DirectX::XMMATRIX cube3ViewTransform = cube3Transform * inverseCameraTransform;
+	XMStoreFloat4x4(&_cube3ViewMatrix, cube3ViewTransform);
 }
 
 void BoxTest::DrawScene()
 {
+	_eRenderer->ClearRenderTargetView(EEngine::Colors::LightSteelBlue);
+	_eRenderer->ClearDepthStencilView(EEngine::ERENDERER_CLEAR_DEPTH | EEngine::ERENDERER_CLEAR_STENCIL, 1.0f, 0);
+
 	DirectX::XMMATRIX world = XMLoadFloat4x4(&_worldMatrix);
-	DirectX::XMMATRIX view = XMLoadFloat4x4(&_viewMatrix);
 	DirectX::XMMATRIX proj = XMLoadFloat4x4(&_projectionMatrix);
+
+	DirectX::XMMATRIX view = XMLoadFloat4x4(&_cube1ViewMatrix);
 	DirectX::XMMATRIX worldViewProj = world*view*proj;
 
-	_meshRenderer.RenderMesh(_cube, &worldViewProj);	
+	_meshRenderer.RenderMesh(_cube1Mesh, &worldViewProj);
+
+	view = XMLoadFloat4x4(&_cube2ViewMatrix);
+	worldViewProj = world*view*proj;
+
+	_meshRenderer.RenderMesh(_cube2Mesh, &worldViewProj);
+
+	view = XMLoadFloat4x4(&_cube3ViewMatrix);
+	worldViewProj = world*view*proj;
+
+	_meshRenderer.RenderMesh(_cube3Mesh, &worldViewProj);
+
+	HRESULT hresult = (_eRenderer->GetSwapChain()->Present(0, 0));
+	if (FAILED(hresult))
+	{
+		_eLogger.LogHResult(hresult);
+	}
 }
 
 void BoxTest::OnResize()
 {
-	DirectX::XMMATRIX P = DirectX::XMMatrixPerspectiveFovLH(0.25f*EEngine::EMath::Pi, _eRenderer->GetAspectRatio(), 1.0f, 1000.0f);
+	DirectX::XMMATRIX P = DirectX::XMMatrixPerspectiveFovLH(1.0472, _eRenderer->GetAspectRatio(), 0.3f, 1000.0f);
 	XMStoreFloat4x4(&_projectionMatrix, P);
 }
 
