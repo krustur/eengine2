@@ -285,6 +285,15 @@ namespace EEngine
 
 	}
 
+	void ERenderer::Present()
+	{
+		HRESULT hresult = _swapChain->Present(0, 0);		
+		if (FAILED(hresult))
+		{
+			_eLog.LogHResult(hresult);
+		}
+	}
+
 	void ERenderer::OnActivate() {}
 
 	void ERenderer::OnDeactivate() {}

@@ -31,6 +31,8 @@ namespace EEngine
 		void ClearRenderTargetView(EColor color);
 		void ClearDepthStencilView(unsigned int clearFlags, float depth, int stencil);
 
+		void Present();
+
 		ID3D11Device *GetD3dDevice();
 		ID3D11DeviceContext* GetD3dImmediateContext();
 		ID3D11RenderTargetView* GetD3dRenderTargetView();

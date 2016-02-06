@@ -98,11 +98,7 @@ void BoxTest::DrawScene()
 
 	_meshRenderer.RenderMesh(_cube3Mesh, &worldViewProj);
 
-	HRESULT hresult = (_eRenderer->GetSwapChain()->Present(0, 0));
-	if (FAILED(hresult))
-	{
-		_eLogger.LogHResult(hresult);
-	}
+	_eRenderer->Present();
 }
 
 void BoxTest::OnResize()
