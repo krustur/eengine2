@@ -1,23 +1,23 @@
 #pragma once
 
 #include <d3d11.h>
-#include "ELog.h"
-#include "IEWindowEventListener.h"
-#include "EColor.h"
+#include "Logger.h"
+#include "IWindowEventListener.h"
+#include "Color.h"
 
 namespace EEngine
 {
-	typedef enum ERENDERER_CLEAR_FLAG
+	typedef enum RENDERER_CLEAR_FLAG
 	{
-		ERENDERER_CLEAR_DEPTH = 0x1L,
-		ERENDERER_CLEAR_STENCIL = 0x2L
-	} 	ERENDERER_CLEAR_FLAG;
+		RENDERER_CLEAR_DEPTH = 0x1L,
+		RENDERER_CLEAR_STENCIL = 0x2L
+	} 	RENDERER_CLEAR_FLAG;
 
-	class ERenderer final : public IEWindowEventListener
+	class Renderer final : public IWindowEventListener
 	{
 	public:
-		ERenderer(HWND windowHandle);
-		~ERenderer();
+		Renderer(HWND windowHandle);
+		~Renderer();
 
 		virtual bool Init();
 
@@ -28,7 +28,7 @@ namespace EEngine
 		void OnMouseMove(WPARAM buttonState, int x, int y);
 		void OnResize(int width, int height);
 
-		void ClearRenderTargetView(EColor color);
+		void ClearRenderTargetView(Color color);
 		void ClearDepthStencilView(unsigned int clearFlags, float depth, int stencil);
 
 		void Present();
@@ -38,7 +38,7 @@ namespace EEngine
 		ID3D11RenderTargetView* GetD3dRenderTargetView();
 		ID3D11DepthStencilView* GetD3dDepthStencilView();
 		IDXGISwapChain* GetSwapChain();
-		float ERenderer::GetAspectRatio() const;
+		float GetAspectRatio() const;
 
 	private:
 		HWND _windowHandle;
@@ -50,7 +50,7 @@ namespace EEngine
 		bool _enable4xMsaa;
 		UINT _4xMsaaQuality;
 
-		ELog _eLog;
+		Logger _logger;
 
 		ID3D11Device* _d3dDevice;
 		ID3D11DeviceContext* _d3dImmediateContext;

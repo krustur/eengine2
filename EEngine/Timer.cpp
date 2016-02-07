@@ -1,9 +1,9 @@
 #include <windows.h>
-#include "ETimer.h"
+#include "Timer.h"
 
 namespace EEngine
 {
-	ETimer::ETimer() :
+	Timer::Timer() :
 		_secondsPerCounter(0.0),
 		_deltaTime(-1.0),
 		_initTime(0),
@@ -18,7 +18,7 @@ namespace EEngine
 		_secondsPerCounter = 1.0 / (double)countsPerSec;
 	}
 
-	float ETimer::GetTotalTime()const
+	float Timer::GetTotalTime()const
 	{
 		if (_isPaused)
 		{
@@ -28,13 +28,13 @@ namespace EEngine
 		return (float)(((_currentTime - _pausedTimeSpan) - _initTime)*_secondsPerCounter);
 	}
 
-	float ETimer::GetDeltaTime()const
+	float Timer::GetDeltaTime()const
 	{
 		return (float)_deltaTime;
 	}
 
 
-	void ETimer::Init()
+	void Timer::Init()
 	{
 		__int64 currentTime;
 		QueryPerformanceCounter((LARGE_INTEGER*)&currentTime);
@@ -46,7 +46,7 @@ namespace EEngine
 	}
 
 
-	void ETimer::Tick()
+	void Timer::Tick()
 	{
 		if (_isPaused)
 		{
@@ -68,7 +68,7 @@ namespace EEngine
 		}
 	}
 
-	void ETimer::Resume()
+	void Timer::Resume()
 	{
 		__int64 currentTime;
 		QueryPerformanceCounter((LARGE_INTEGER*)&currentTime);
@@ -83,7 +83,7 @@ namespace EEngine
 		}
 	}
 
-	void ETimer::Pause()
+	void Timer::Pause()
 	{
 		if (!_isPaused)
 		{

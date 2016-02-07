@@ -1,19 +1,19 @@
-#include "EMeshRenderer.h"
+#include "MeshRenderer.h"
 
 namespace EEngine
 {
 
-	EMeshRenderer::EMeshRenderer(ERenderer &renderer) :
+	MeshRenderer::MeshRenderer(Renderer &renderer) :
 		_renderer(renderer),
-		_logger(L"EMeshRenderer")
+		_logger(L"MeshRenderer")
 	{
 	}
 
-	EMeshRenderer::~EMeshRenderer()
+	MeshRenderer::~MeshRenderer()
 	{
 	}
 
-	void EMeshRenderer::RenderMesh(EMesh *mesh, DirectX::XMMATRIX *worldViewProj)
+	void MeshRenderer::RenderMesh(Mesh *mesh, DirectX::XMMATRIX *worldViewProj)
 	{
 		_renderer.GetD3dImmediateContext()->IASetInputLayout(mesh->GetInputLayout());
 		_renderer.GetD3dImmediateContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);

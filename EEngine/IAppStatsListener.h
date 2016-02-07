@@ -2,10 +2,10 @@
 
 namespace EEngine
 {
-	class IEAppStatsListener
+	class IAppStatsListener
 	{
 	public:
-		virtual ~IEAppStatsListener() {}
+		virtual ~IAppStatsListener() {}
 
 		virtual void BeginUpdate() = 0;
 		virtual void UpdatePausedState(bool paused) = 0;

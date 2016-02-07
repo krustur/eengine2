@@ -9,22 +9,22 @@
 
 namespace EEngine
 {
-	struct ELog
+	struct Logger
 	{
 	public:
-		ELog::ELog(LPTSTR name);
-		~ELog();
+		Logger::Logger(LPTSTR name);
+		~Logger();
 
-		template <typename T> friend ELog& operator<<(ELog& eLog, const T& t)
+		template <typename T> friend Logger& operator<<(Logger& logger, const T& t)
 		{
-			eLog.formatStream << t;
-			return eLog;
+			logger.formatStream << t;
+			return logger;
 		}
 
-		friend ELog& operator<<(ELog& eLog, std::ostringstream& (*pf)(std::ostringstream&))
+		friend Logger& operator<<(Logger& logger, std::ostringstream& (*pf)(std::ostringstream&))
 		{
-			eLog.formatStream << pf;
-			return eLog;
+			logger.formatStream << pf;
+			return logger;
 		}
 
 		void LogHResult(HRESULT hresult);
@@ -32,7 +32,7 @@ namespace EEngine
 		void Log(LPTSTR string);
 		void LogLine(const char *string);
 		void LogLine(LPTSTR string);
-		void FormatLine(ELog &eLog);
+		void FormatLine(Logger &logger);
 
 	private:
 		void LogHeader();

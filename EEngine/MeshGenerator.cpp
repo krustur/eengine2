@@ -1,10 +1,10 @@
-#include "EMeshGenerator.h"
+#include "MeshGenerator.h"
 
 #include <d3d11.h>
 #include <DirectXMath.h>
 #include <d3dcompiler.h>
 
-#include "EColor.h"
+#include "Color.h"
 
 
 namespace EEngine
@@ -12,23 +12,23 @@ namespace EEngine
 	struct Vertex
 	{
 		DirectX::XMFLOAT3 Pos;
-		EEngine::EColor Color;
+		EEngine::Color Color;
 	};
 
-	EMeshGenerator::EMeshGenerator(ERenderer &renderer) :
-		_eLog(L"EMeshRenderer"),
+	MeshGenerator::MeshGenerator(Renderer &renderer) :
+		_logger(L"MeshRenderer"),
 		_renderer(renderer)
 	{
 	}
 
 
-	EMeshGenerator::~EMeshGenerator()
+	MeshGenerator::~MeshGenerator()
 	{
 	}
 
-	EMesh *EMeshGenerator::GenerateMesh()
+	Mesh *MeshGenerator::GenerateMesh()
 	{
-		auto mesh = new EMesh();
+		auto mesh = new Mesh();
 
 		BuildGeometryBuffers(*mesh);
 		BuildFX(*mesh);
@@ -36,7 +36,7 @@ namespace EEngine
 		return mesh;
 	}
 
-	void EMeshGenerator::BuildGeometryBuffers(EMesh &mesh)
+	void MeshGenerator::BuildGeometryBuffers(Mesh &mesh)
 	{
 		float size = 0.5f;
 		Vertex vertices[] =
@@ -66,7 +66,7 @@ namespace EEngine
 		HRESULT hresult = (_renderer.GetD3dDevice()->CreateBuffer(&vertexBufferDescription, &vertexInitialData, &vertexBuffer));
 		if (FAILED(hresult))
 		{
-			_eLog.LogHResult(hresult);
+			_logger.LogHResult(hresult);
 		}
 
 		UINT indices[] = {
@@ -100,14 +100,14 @@ namespace EEngine
 		hresult = (_renderer.GetD3dDevice()->CreateBuffer(&indicesBufferDescription, &indicesInitializationData, &indexBuffer));
 		if (FAILED(hresult))
 		{
-			_eLog.LogHResult(hresult);
+			_logger.LogHResult(hresult);
 		}
 		mesh.SetVertexBuffer(vertexBuffer);
 		mesh.SetIndexBuffer(indexBuffer);
 		mesh.SetStride(sizeof(Vertex));
 	}
 
-	void EMeshGenerator::BuildFX(EMesh &mesh)
+	void MeshGenerator::BuildFX(Mesh &mesh)
 	{
 		DWORD shaderFlags = 0;
 #if defined( DEBUG ) || defined( _DEBUG )
@@ -121,7 +121,7 @@ namespace EEngine
 
 		if (compilationMessages != 0)
 		{
-			_eLog.LogLine((char *)compilationMessages->GetBufferPointer());
+			_logger.LogLine((char *)compilationMessages->GetBufferPointer());
 
 			compilationMessages->Release();
 			compilationMessages = 0;
@@ -129,14 +129,14 @@ namespace EEngine
 
 		if (FAILED(hresult))
 		{
-			_eLog.LogHResult(hresult);
+			_logger.LogHResult(hresult);
 		}
 
 		ID3DX11Effect* effect;
 		hresult = (D3DX11CreateEffectFromMemory(compiledShader->GetBufferPointer(), compiledShader->GetBufferSize(), 0, _renderer.GetD3dDevice(), &effect));
 		if (FAILED(hresult))
 		{
-			_eLog.LogHResult(hresult);
+			_logger.LogHResult(hresult);
 		}
 
 		if (compiledShader)
@@ -162,7 +162,7 @@ namespace EEngine
 		hresult = (_renderer.GetD3dDevice()->CreateInputLayout(inputElementDescriptions, 2, effectPassDescription.pIAInputSignature, effectPassDescription.IAInputSignatureSize, &inputLayout));
 		if (FAILED(hresult))
 		{
-			_eLog.LogHResult(hresult);
+			_logger.LogHResult(hresult);
 		}
 
 		mesh.SetEffect(effect);

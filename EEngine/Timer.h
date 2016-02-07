@@ -2,10 +2,10 @@
 
 namespace EEngine
 {
-	class ETimer
+	class Timer
 	{
 	public:
-		ETimer();
+		Timer();
 
 		void Init();
 		void Tick();

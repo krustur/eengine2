@@ -1,4 +1,4 @@
-#include "ERenderer.h"
+#include "Renderer.h"
 
 #include <d3d11.h>
 #include <cassert>
@@ -10,11 +10,11 @@
 #include <vector>
 #include <iostream>
 
-#include "ELog.h"
+#include "Logger.h"
 
 namespace EEngine
 {
-	ERenderer::ERenderer(HWND windowHandle) :
+	Renderer::Renderer(HWND windowHandle) :
 		_d3dDriverType(D3D_DRIVER_TYPE_HARDWARE),
 		_clientWidth(800),
 		_clientHeight(600),
@@ -27,11 +27,11 @@ namespace EEngine
 		_depthStencilBuffer(0),
 		_renderTargetView(0),
 		_depthStencilView(0),
-		_eLog(L"ERenderer")
+		_logger(L"Renderer")
 	{
 	}
 
-	ERenderer::~ERenderer()
+	Renderer::~Renderer()
 	{
 		if (_renderTargetView)
 		{
@@ -67,7 +67,7 @@ namespace EEngine
 		}
 	}
 
-	bool ERenderer::Init()
+	bool Renderer::Init()
 	{
 		UINT createDeviceFlags = 0;
 #if defined(DEBUG) || defined(_DEBUG)  
@@ -81,9 +81,9 @@ namespace EEngine
 		if (FAILED(hresult))
 		{
 			// TODO: Throw exceptions
-			_eLog.LogLine(L"Failed to initialize ERenderer: Failed to create D3D11CreateDevice.");
-			_eLog.LogHResult(hresult);
-			MessageBox(0, L"Failed to initialize ERenderer, see log for details.", 0, 0);
+			_logger.LogLine(L"Failed to initialize Renderer: Failed to create D3D11CreateDevice.");
+			_logger.LogHResult(hresult);
+			MessageBox(0, L"Failed to initialize Renderer, see log for details.", 0, 0);
 			return false;
 		}
 
@@ -91,15 +91,15 @@ namespace EEngine
 			//if (featureLevel != 0xc000)
 		{
 			// TODO: Throw exceptions
-			_eLog.LogLine(L"Failed to initialize ERenderer: Required D3D feature level 11 not supported.");
-			MessageBox(0, L"Failed to initialize ERenderer, see log for details.", 0, 0);
+			_logger.LogLine(L"Failed to initialize Renderer: Required D3D feature level 11 not supported.");
+			MessageBox(0, L"Failed to initialize Renderer, see log for details.", 0, 0);
 			return false;
 		}
 
 		hresult = (_d3dDevice->CheckMultisampleQualityLevels(DXGI_FORMAT_R8G8B8A8_UNORM, 4, &_4xMsaaQuality));
 		if (FAILED(hresult))
 		{
-			_eLog.LogHResult(hresult);
+			_logger.LogHResult(hresult);
 		}
 		assert(_4xMsaaQuality > 0);
 
@@ -133,27 +133,27 @@ namespace EEngine
 		hresult = (_d3dDevice->QueryInterface(__uuidof(IDXGIDevice), (void**)&dxgiDevice));
 		if (FAILED(hresult))
 		{
-			_eLog.LogHResult(hresult);
+			_logger.LogHResult(hresult);
 		}
 
 		IDXGIAdapter* dxgiAdapter = 0;
 		hresult = (dxgiDevice->GetParent(__uuidof(IDXGIAdapter), (void**)&dxgiAdapter));
 		if (FAILED(hresult))
 		{
-			_eLog.LogHResult(hresult);
+			_logger.LogHResult(hresult);
 		}
 
 		IDXGIFactory* dxgiFactory = 0;
 		hresult = (dxgiAdapter->GetParent(__uuidof(IDXGIFactory), (void**)&dxgiFactory));
 		if (FAILED(hresult))
 		{
-			_eLog.LogHResult(hresult);
+			_logger.LogHResult(hresult);
 		}
 
 		hresult = (dxgiFactory->CreateSwapChain(_d3dDevice, &swapChainDescription, &_swapChain));
 		if (FAILED(hresult))
 		{
-			_eLog.LogHResult(hresult);
+			_logger.LogHResult(hresult);
 		}
 
 		if (dxgiDevice)
@@ -177,9 +177,9 @@ namespace EEngine
 		return true;
 	}
 
-	void ERenderer::OnResize()
+	void Renderer::OnResize()
 	{
-		_eLog.FormatLine(_eLog << "OnResize(), " << _clientWidth << ", " << _clientHeight);
+		_logger.FormatLine(_logger << "OnResize(), " << _clientWidth << ", " << _clientHeight);
 
 		assert(_d3dImmediateContext);
 		assert(_d3dDevice);
@@ -206,20 +206,20 @@ namespace EEngine
 		HRESULT hresult = (_swapChain->ResizeBuffers(1, _clientWidth, _clientHeight, DXGI_FORMAT_R8G8B8A8_UNORM, 0));
 		if (FAILED(hresult))
 		{
-			_eLog.LogHResult(hresult);
+			_logger.LogHResult(hresult);
 		}
 
 		ID3D11Texture2D* backBuffer;
 		hresult = (_swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), reinterpret_cast<void**>(&backBuffer)));
 		if (FAILED(hresult))
 		{
-			_eLog.LogHResult(hresult);
+			_logger.LogHResult(hresult);
 		}
 
 		hresult = (_d3dDevice->CreateRenderTargetView(backBuffer, 0, &_renderTargetView));
 		if (FAILED(hresult))
 		{
-			_eLog.LogHResult(hresult);
+			_logger.LogHResult(hresult);
 		}
 
 		if (backBuffer)
@@ -251,13 +251,13 @@ namespace EEngine
 		hresult = (_d3dDevice->CreateTexture2D(&depthStencilDescription, 0, &_depthStencilBuffer));
 		if (FAILED(hresult))
 		{
-			_eLog.LogHResult(hresult);
+			_logger.LogHResult(hresult);
 		}
 
 		hresult = (_d3dDevice->CreateDepthStencilView(_depthStencilBuffer, 0, &_depthStencilView));
 		if (FAILED(hresult))
 		{
-			_eLog.LogHResult(hresult);
+			_logger.LogHResult(hresult);
 		}
 
 		_d3dImmediateContext->OMSetRenderTargets(1, &_renderTargetView, _depthStencilView);
@@ -272,71 +272,71 @@ namespace EEngine
 		_d3dImmediateContext->RSSetViewports(1, &_screenViewport);
 	}
 
-	void ERenderer::ClearRenderTargetView(EColor color)
+	void Renderer::ClearRenderTargetView(Color color)
 	{
 		_d3dImmediateContext->ClearRenderTargetView(_renderTargetView, reinterpret_cast<const float*>(&color));
 
 
 	}
 
-	void ERenderer::ClearDepthStencilView(unsigned int clearFlags, float depth, int stencil)
+	void Renderer::ClearDepthStencilView(unsigned int clearFlags, float depth, int stencil)
 	{
 		_d3dImmediateContext->ClearDepthStencilView(_depthStencilView, clearFlags, depth, stencil);
 
 	}
 
-	void ERenderer::Present()
+	void Renderer::Present()
 	{
 		HRESULT hresult = _swapChain->Present(0, 0);		
 		if (FAILED(hresult))
 		{
-			_eLog.LogHResult(hresult);
+			_logger.LogHResult(hresult);
 		}
 	}
 
-	void ERenderer::OnActivate() {}
+	void Renderer::OnActivate() {}
 
-	void ERenderer::OnDeactivate() {}
+	void Renderer::OnDeactivate() {}
 
-	void ERenderer::OnMouseDown(WPARAM buttonState, int x, int y) {}
+	void Renderer::OnMouseDown(WPARAM buttonState, int x, int y) {}
 
-	void ERenderer::OnMouseUp(WPARAM buttonState, int x, int y) {}
+	void Renderer::OnMouseUp(WPARAM buttonState, int x, int y) {}
 
-	void ERenderer::OnMouseMove(WPARAM buttonState, int x, int y) {}
+	void Renderer::OnMouseMove(WPARAM buttonState, int x, int y) {}
 
-	void ERenderer::OnResize(int width, int height)
+	void Renderer::OnResize(int width, int height)
 	{
 		_clientWidth = width;
 		_clientHeight = height;
 		OnResize();
 	}
 
-	ID3D11Device * ERenderer::GetD3dDevice()
+	ID3D11Device * Renderer::GetD3dDevice()
 	{
 		return _d3dDevice;
 	}
 
-	ID3D11DeviceContext * ERenderer::GetD3dImmediateContext()
+	ID3D11DeviceContext * Renderer::GetD3dImmediateContext()
 	{
 		return _d3dImmediateContext;
 	}
 
-	ID3D11RenderTargetView * ERenderer::GetD3dRenderTargetView()
+	ID3D11RenderTargetView * Renderer::GetD3dRenderTargetView()
 	{
 		return _renderTargetView;
 	}
 
-	ID3D11DepthStencilView * ERenderer::GetD3dDepthStencilView()
+	ID3D11DepthStencilView * Renderer::GetD3dDepthStencilView()
 	{
 		return _depthStencilView;
 	}
 
-	IDXGISwapChain * ERenderer::GetSwapChain()
+	IDXGISwapChain * Renderer::GetSwapChain()
 	{
 		return _swapChain;
 	}
 
-	float ERenderer::GetAspectRatio() const
+	float Renderer::GetAspectRatio() const
 	{
 		return static_cast<float>(_clientWidth) / _clientHeight;
 	}

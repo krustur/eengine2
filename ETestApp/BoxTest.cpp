@@ -5,20 +5,20 @@
 #include <d3dcompiler.h>
 #include <iostream>
 
-#include "ELog.h"
-#include "EColor.h"
-#include "EMath.h"
+#include "Logger.h"
+#include "Color.h"
+#include "EEngineMath.h"
 
 #include "d3dx11Effect.h"
 
-BoxTest::BoxTest(EEngine::EApp *eApp) :
-	_eApp(eApp),
-	_eRenderer(eApp->GetRenderer()),
-	_eLogger(L"BoxTest"),
-	_meshGenerator(*eApp->GetRenderer()),
-	_meshRenderer(*eApp->GetRenderer()),
-	_theta(1.5f*EEngine::EMath::Pi),
-	_phi(0.25f*EEngine::EMath::Pi),
+BoxTest::BoxTest(EEngine::App *app) :
+	_app(app),
+	_renderer(app->GetRenderer()),
+	_logger(L"BoxTest"),
+	_meshGenerator(*app->GetRenderer()),
+	_meshRenderer(*app->GetRenderer()),
+	_theta(1.5f*EEngine::EEngineMath::Pi),
+	_phi(0.25f*EEngine::EEngineMath::Pi),
 	_radius(5.0f),
 	_cube1Mesh(nullptr),
 	_cube2Mesh(nullptr),
@@ -77,8 +77,8 @@ void BoxTest::UpdateScene(float deltaTime)
 
 void BoxTest::DrawScene()
 {
-	_eRenderer->ClearRenderTargetView(EEngine::Colors::LightSteelBlue);
-	_eRenderer->ClearDepthStencilView(EEngine::ERENDERER_CLEAR_DEPTH | EEngine::ERENDERER_CLEAR_STENCIL, 1.0f, 0);
+	_renderer->ClearRenderTargetView(EEngine::Colors::LightSteelBlue);
+	_renderer->ClearDepthStencilView(EEngine::RENDERER_CLEAR_DEPTH | EEngine::RENDERER_CLEAR_STENCIL, 1.0f, 0);
 
 	DirectX::XMMATRIX world = XMLoadFloat4x4(&_worldMatrix);
 	DirectX::XMMATRIX proj = XMLoadFloat4x4(&_projectionMatrix);
@@ -98,12 +98,12 @@ void BoxTest::DrawScene()
 
 	_meshRenderer.RenderMesh(_cube3Mesh, &worldViewProj);
 
-	_eRenderer->Present();
+	_renderer->Present();
 }
 
 void BoxTest::OnResize()
 {
-	DirectX::XMMATRIX P = DirectX::XMMatrixPerspectiveFovLH(1.0472, _eRenderer->GetAspectRatio(), 0.3f, 1000.0f);
+	DirectX::XMMATRIX P = DirectX::XMMatrixPerspectiveFovLH(1.0472, _renderer->GetAspectRatio(), 0.3f, 1000.0f);
 	XMStoreFloat4x4(&_projectionMatrix, P);
 }
 
@@ -136,7 +136,7 @@ void BoxTest::OnMouseMove(WPARAM btnState, int x, int y)
 		_theta -= dx;
 		_phi -= dy;
 
-		_phi = Clamp(_phi, 0.1f, EEngine::EMath::Pi - 0.1f);
+		_phi = Clamp(_phi, 0.1f, EEngine::EEngineMath::Pi - 0.1f);
 	}
 	else if ((btnState & MK_RBUTTON) != 0)
 	{

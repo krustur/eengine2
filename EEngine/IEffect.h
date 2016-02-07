@@ -2,10 +2,10 @@
 
 namespace EEngine
 {
-	class IEEffect
+	class IEffect
 	{
 	public:
-		virtual ~IEEffect() {}
+		virtual ~IEffect() {}
 
 		virtual void UpdateScene(float deltaTime) = 0;
 		virtual void DrawScene() = 0;

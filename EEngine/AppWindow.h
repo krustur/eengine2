@@ -2,23 +2,23 @@
 
 #include <windows.h>
 #include <list>
-#include "IEAppStatsListener.h"
-#include "IEWindowEventListener.h"
-#include "ELog.h"
+#include "IAppStatsListener.h"
+#include "IWindowEventListener.h"
+#include "Logger.h"
 
 namespace EEngine
 {
-	class EAppWindow : public IEAppStatsListener
+	class AppWindow : public IAppStatsListener
 	{
 	public:
-		EAppWindow(HINSTANCE hInstance, int nShowCmd);
-		virtual ~EAppWindow();
+		AppWindow(HINSTANCE hInstance, int nShowCmd);
+		virtual ~AppWindow();
 
 		bool Init();
 		void Open();
 		const HWND &GetWindowHandle() const;
 
-		void SetWindowEventListener(IEWindowEventListener *windowEventListener);
+		void SetWindowEventListener(IWindowEventListener *windowEventListener);
 
 		void BeginUpdate();
 		void UpdatePausedState(bool paused);
@@ -35,9 +35,9 @@ namespace EEngine
 
 		HWND _window;
 
-		ELog _eLog;
+		Logger _logger;
 
-		std::list<IEWindowEventListener *> _windowEventListeners;
+		std::list<IWindowEventListener *> _windowEventListeners;
 
 		bool _paused;
 		float _framesPerSeconds;

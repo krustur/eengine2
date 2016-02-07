@@ -1,4 +1,4 @@
-#include "ELog.h"
+#include "Logger.h"
 
 #include <ctime>
 #include <iostream>
@@ -10,20 +10,20 @@
 
 namespace EEngine
 {
-	FILE *ELog::_stream;
+	FILE *Logger::_stream;
 
-	ELog::ELog(LPTSTR name) :
+	Logger::Logger(LPTSTR name) :
 		formatStream(),
 		_name(name)
 	{
 		StaticInitialization();
 	}
 
-	ELog::~ELog()
+	Logger::~Logger()
 	{
 	}
 
-	void ELog::StaticInitialization()
+	void Logger::StaticInitialization()
 	{
 		static bool isStaticInitialized = false;
 		if (isStaticInitialized)
@@ -31,11 +31,11 @@ namespace EEngine
 			return;
 		}
 		freopen_s(&_stream, "EEngine.log", "w", stdout);
-		std::cout << "EEngine log start" << std::endl;
+		std::cout << "EEngine Logger start" << std::endl;
 		isStaticInitialized = true;
 	}
 
-	void ELog::LogHResult(HRESULT hresult)
+	void Logger::LogHResult(HRESULT hresult)
 	{
 		LPTSTR errorText = NULL;
 
@@ -64,19 +64,19 @@ namespace EEngine
 		}
 	}
 
-	void ELog::Log(const char *string)
+	void Logger::Log(const char *string)
 	{
 		std::cout << string;
 		OutputDebugStringA(string);
 	}
 
-	void ELog::Log(LPTSTR string)
+	void Logger::Log(LPTSTR string)
 	{
 		std::wcout << string;
 		OutputDebugStringW(string);
 	}
 
-	void ELog::LogLine(const char *string)
+	void Logger::LogLine(const char *string)
 	{
 		LogHeader();
 		std::cout << string << std::endl;
@@ -84,7 +84,7 @@ namespace EEngine
 		OutputDebugStringA("\n");
 	}
 
-	void ELog::LogLine(LPTSTR string)
+	void Logger::LogLine(LPTSTR string)
 	{
 		LogHeader();
 		std::wcout << string << std::endl;
@@ -92,7 +92,7 @@ namespace EEngine
 		OutputDebugStringW(L"\n");
 	}
 
-	void ELog::LogHeader()
+	void Logger::LogHeader()
 	{
 		auto prosit = GetDateTimeString();
 		auto dateTimeString = prosit.c_str();
@@ -105,7 +105,7 @@ namespace EEngine
 		OutputDebugStringW(L"] ");
 	}
 
-	std::string ELog::GetDateTimeString()
+	std::string Logger::GetDateTimeString()
 	{
 		auto now = std::chrono::system_clock::now();
 		auto nowTime = std::chrono::system_clock::to_time_t(now);
@@ -121,7 +121,7 @@ namespace EEngine
 		return stringStream.str();
 	}
 
-	void ELog::FormatLine(ELog &eLog)
+	void Logger::FormatLine(Logger &logger)
 	{
 		std::string str = formatStream.str();
 		auto cstr = str.c_str();

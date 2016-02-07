@@ -5,11 +5,11 @@
 namespace EEngine
 {
 	template <typename T>
-	class ERaiiFactory
+	class RaiiFactory
 	{
 	public:
-		ERaiiFactory() {}
-		~ERaiiFactory()
+		RaiiFactory() {}
+		~RaiiFactory()
 		{
 			while (!container.empty())
 			{
@@ -34,7 +34,7 @@ namespace EEngine
 		std::vector<const T*> container;
 
 		// non-copyable
-		ERaiiFactory(const ERaiiFactory&);
-		ERaiiFactory& operator= (const ERaiiFactory&);
+		RaiiFactory(const RaiiFactory&);
+		RaiiFactory& operator= (const RaiiFactory&);
 	};
 }

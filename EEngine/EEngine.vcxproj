@@ -19,38 +19,38 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="EApp.cpp" />
-    <ClCompile Include="EAppFactory.cpp" />
-    <ClCompile Include="EAppWindow.cpp" />
-    <ClCompile Include="EAppWindowFactory.cpp" />
-    <ClCompile Include="EColor.cpp" />
-    <ClCompile Include="EMath.cpp" />
-    <ClCompile Include="EMesh.cpp" />
-    <ClCompile Include="EMeshGenerator.cpp" />
-    <ClCompile Include="EMeshRenderer.cpp" />
-    <ClCompile Include="ERenderer.cpp" />
-    <ClCompile Include="ELog.cpp" />
-    <ClCompile Include="ETimer.cpp" />
+    <ClCompile Include="App.cpp" />
+    <ClCompile Include="AppFactory.cpp" />
+    <ClCompile Include="AppWindow.cpp" />
+    <ClCompile Include="AppWindowFactory.cpp" />
+    <ClCompile Include="Color.cpp" />
+    <ClCompile Include="EEngineMath.cpp" />
+    <ClCompile Include="Mesh.cpp" />
+    <ClCompile Include="MeshGenerator.cpp" />
+    <ClCompile Include="MeshRenderer.cpp" />
+    <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="Logger.cpp" />
+    <ClCompile Include="Timer.cpp" />
     <ClCompile Include="GameObject.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="EApp.h" />
-    <ClInclude Include="EAppFactory.h" />
-    <ClInclude Include="EAppWindow.h" />
-    <ClInclude Include="EAppWindowFactory.h" />
-    <ClInclude Include="EColor.h" />
-    <ClInclude Include="EMath.h" />
-    <ClInclude Include="EMesh.h" />
-    <ClInclude Include="EMeshGenerator.h" />
-    <ClInclude Include="EMeshRenderer.h" />
-    <ClInclude Include="ERenderer.h" />
-    <ClInclude Include="ELog.h" />
-    <ClInclude Include="ERaiiFactory.h" />
-    <ClInclude Include="ETimer.h" />
+    <ClInclude Include="App.h" />
+    <ClInclude Include="AppFactory.h" />
+    <ClInclude Include="AppWindow.h" />
+    <ClInclude Include="AppWindowFactory.h" />
+    <ClInclude Include="Color.h" />
+    <ClInclude Include="EEngineMath.h" />
+    <ClInclude Include="Mesh.h" />
+    <ClInclude Include="MeshGenerator.h" />
+    <ClInclude Include="MeshRenderer.h" />
+    <ClInclude Include="Renderer.h" />
+    <ClInclude Include="Logger.h" />
+    <ClInclude Include="RaiiFactory.h" />
+    <ClInclude Include="Timer.h" />
     <ClInclude Include="GameObject.h" />
-    <ClInclude Include="IEEffect.h" />
-    <ClInclude Include="IEAppStatsListener.h" />
-    <ClInclude Include="IEWindowEventListener.h" />
+    <ClInclude Include="IEffect.h" />
+    <ClInclude Include="IAppStatsListener.h" />
+    <ClInclude Include="IWindowEventListener.h" />
     <ClInclude Include="inc\d3dx11effect.h" />
   </ItemGroup>
   <ItemGroup>

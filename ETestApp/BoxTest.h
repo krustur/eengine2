@@ -1,17 +1,17 @@
 #pragma once
 
-#include "Eapp.h"
-#include "EMeshGenerator.h"
-#include "EMeshRenderer.h"
+#include "App.h"
+#include "MeshGenerator.h"
+#include "MeshRenderer.h"
 #include "GameObject.h"
-#include "IEEffect.h"
-#include "IEWindowEventListener.h"
+#include "IEffect.h"
+#include "IWindowEventListener.h"
 #include <DirectXMath.h>
 
-class BoxTest : public EEngine::IEEffect, public EEngine::IEWindowEventListener
+class BoxTest : public EEngine::IEffect, public EEngine::IWindowEventListener
 {
 public:
-	BoxTest(EEngine::EApp *eApp);
+	BoxTest(EEngine::App *app);
 	~BoxTest();
 
 	void Init();
@@ -28,12 +28,12 @@ public:
 	void OnResize(int width, int height);
 
 private:
-	EEngine::EApp* _eApp;
-	EEngine::ERenderer* _eRenderer;
-	EEngine::ELog _eLogger;
+	EEngine::App* _app;
+	EEngine::Renderer* _renderer;
+	EEngine::Logger _logger;
 
-	EEngine::EMeshGenerator _meshGenerator;
-	EEngine::EMeshRenderer _meshRenderer;
+	EEngine::MeshGenerator _meshGenerator;
+	EEngine::MeshRenderer _meshRenderer;
 
 	EEngine::GameObject _camera;
 	EEngine::GameObject _cube1;
@@ -54,8 +54,8 @@ private:
 
 	POINT _lastMousePos;
 
-	EEngine::EMesh *_cube1Mesh;
-	EEngine::EMesh *_cube2Mesh;
-	EEngine::EMesh *_cube3Mesh;
+	EEngine::Mesh *_cube1Mesh;
+	EEngine::Mesh *_cube2Mesh;
+	EEngine::Mesh *_cube3Mesh;
 };
 

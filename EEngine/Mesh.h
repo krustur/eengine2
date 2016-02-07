@@ -5,11 +5,11 @@
 
 namespace EEngine
 {
-	class EMesh
+	class Mesh
 	{
 	public:
-		EMesh();
-		~EMesh();
+		Mesh();
+		~Mesh();
 
 		void SetVertexBuffer(ID3D11Buffer* vertexBuffer);		
 		void SetIndexBuffer(ID3D11Buffer* indexBuffer);

@@ -2,7 +2,7 @@
 
 namespace EEngine
 {
-	namespace EMath
+	namespace EEngineMath
 	{
 		extern const float Pi;	
 	}

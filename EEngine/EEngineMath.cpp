@@ -1,10 +1,10 @@
-#include "EMath.h"
+#include "EEngineMath.h"
 
 
 
 namespace EEngine
 {
-	namespace EMath
+	namespace EEngineMath
 	{
 		const float Pi=3.1415926535f;
 	}

@@ -1,7 +1,7 @@
 #include <windows.h>
-#include "EAppFactory.h"
-#include "EAppWindowFactory.h"
-#include "ELog.h"
+#include "AppFactory.h"
+#include "AppWindowFactory.h"
+#include "Logger.h"
 #include "BoxTest.h"
 
 using namespace EEngine;
@@ -17,11 +17,11 @@ void TestCode()
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pCmsLine, int nShowCmd)
 {
-	EAppWindowFactory windowFactory;
+	AppWindowFactory windowFactory;
 	auto &window = windowFactory.CreateAppWindow(hInstance, nShowCmd);
 	window.Init();
 
-	EAppFactory appFactory;
+	AppFactory appFactory;
 	auto &app = appFactory.CreateApp(hInstance, window.GetWindowHandle());
 	app.SetAppStatsListener(&window);
 

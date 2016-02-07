@@ -1,4 +1,4 @@
-#include "EAppWindow.h"
+#include "AppWindow.h"
 
 #include <Windows.h>
 #include <Windowsx.h>
@@ -11,14 +11,14 @@ namespace EEngine
 {
 	//LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
-	EAppWindow::EAppWindow(HINSTANCE hInstance, int nShowCmd) :
+	AppWindow::AppWindow(HINSTANCE hInstance, int nShowCmd) :
 		_hInstance(hInstance),
 		_nShowCmd(nShowCmd),
 		_paused(false),
 		_framesPerSeconds(0.0f),
 		_frameTime(0.0f),
 		_window(nullptr),
-		_eLog(L"EAppWindow"),
+		_logger(L"AppWindow"),
 		_windowWidth(0),
 		_windowHeight(0),
 		_sizeMoving(false),
@@ -27,12 +27,12 @@ namespace EEngine
 	{
 	}
 
-	EAppWindow::~EAppWindow()
+	AppWindow::~AppWindow()
 	{
 	}
 
 
-	bool EAppWindow::Init()
+	bool AppWindow::Init()
 	{
 		WNDCLASS windowClass;
 
@@ -45,7 +45,7 @@ namespace EEngine
 		windowClass.hCursor = LoadCursor(0, IDC_ARROW);
 		windowClass.hbrBackground = (HBRUSH)GetStockObject(WHITE_BRUSH);
 		windowClass.lpszMenuName = 0;
-		windowClass.lpszClassName = L"EAppWindowClass";
+		windowClass.lpszClassName = L"AppWindowClass";
 
 		if (!RegisterClass(&windowClass))
 		{
@@ -54,8 +54,8 @@ namespace EEngine
 		}
 
 		_window = CreateWindow(
-			L"EAppWindowClass",
-			L"EAppWindow",
+			L"AppWindowClass",
+			L"AppWindow",
 			WS_OVERLAPPEDWINDOW,
 			CW_USEDEFAULT,
 			CW_USEDEFAULT,
@@ -75,35 +75,35 @@ namespace EEngine
 		return true;
 	}
 
-	void EAppWindow::Open()
+	void AppWindow::Open()
 	{
 		ShowWindow(_window, _nShowCmd);
 		UpdateWindow(_window);
 	}
 
-	const HWND &EAppWindow::GetWindowHandle() const
+	const HWND &AppWindow::GetWindowHandle() const
 	{
 		return _window;
 	}
 
-	void EAppWindow::SetWindowEventListener(IEWindowEventListener *windowEventListener)
+	void AppWindow::SetWindowEventListener(IWindowEventListener *windowEventListener)
 	{
 		_windowEventListeners.push_back(windowEventListener);
 	}
 
 
-	LRESULT CALLBACK EAppWindow::StaticWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+	LRESULT CALLBACK AppWindow::StaticWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	{
-		EAppWindow * pParent;
+		AppWindow * pParent;
 
 		if (uMsg == WM_CREATE)
 		{
-			pParent = (EAppWindow*)((LPCREATESTRUCT)lParam)->lpCreateParams;
+			pParent = (AppWindow*)((LPCREATESTRUCT)lParam)->lpCreateParams;
 			SetWindowLongPtr(hWnd, GWL_USERDATA, (LONG_PTR)pParent);
 		}
 		else
 		{
-			pParent = (EAppWindow*)GetWindowLongPtr(hWnd, GWL_USERDATA);
+			pParent = (AppWindow*)GetWindowLongPtr(hWnd, GWL_USERDATA);
 			if (!pParent) return DefWindowProc(hWnd, uMsg, wParam, lParam);
 		}
 
@@ -111,7 +111,7 @@ namespace EEngine
 		return pParent->WndProc(hWnd, uMsg, wParam, lParam);
 	}
 
-	LRESULT EAppWindow::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
+	LRESULT AppWindow::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	{
 		assert(_window == nullptr || hWnd == _window);
 
@@ -126,7 +126,7 @@ namespace EEngine
 		{
 			if (LOWORD(wParam) == WA_INACTIVE)
 			{
-				//_eLog.LogLine(L"OnDeactivate");
+				//_logger.LogLine(L"OnDeactivate");
 				for (auto iterator = _windowEventListeners.begin(), end = _windowEventListeners.end(); iterator != end; ++iterator)
 				{
 					(*iterator)->OnDeactivate();
@@ -134,7 +134,7 @@ namespace EEngine
 			}
 			else
 			{
-				//_eLog.LogLine(L"OnActivate");
+				//_logger.LogLine(L"OnActivate");
 				for (auto iterator = _windowEventListeners.begin(), end = _windowEventListeners.end(); iterator != end; ++iterator)
 				{
 					(*iterator)->OnActivate();
@@ -149,14 +149,14 @@ namespace EEngine
 
 			if (wParam == SIZE_MINIMIZED)
 			{
-				//_eLog.LogLine(L"OnMinimized");
+				//_logger.LogLine(L"OnMinimized");
 				//_paused = true;
 				_minimized = true;
 				_maximized = false;
 			}
 			else if (wParam == SIZE_MAXIMIZED)
 			{
-				//_eLog.LogLine(L"OnMaximized"); 
+				//_logger.LogLine(L"OnMaximized"); 
 				//_paused = false;
 				_minimized = false;
 				_maximized = true;
@@ -166,14 +166,14 @@ namespace EEngine
 			{
 				if (_minimized)
 				{
-					//_eLog.LogLine(L"OnRestored (from minimized)");
+					//_logger.LogLine(L"OnRestored (from minimized)");
 					//	_paused = false;
 					_minimized = false;
 					SendResizeEvent(_windowWidth, _windowHeight);
 				}
 				else if (_maximized)
 				{
-					//_eLog.LogLine(L"OnRestored (from maximized)");
+					//_logger.LogLine(L"OnRestored (from maximized)");
 					//	_paused = false;
 					_maximized = false;
 					SendResizeEvent(_windowWidth, _windowHeight);
@@ -183,7 +183,7 @@ namespace EEngine
 				}
 				else
 				{
-					//_eLog.LogLine(L"OnRestored");
+					//_logger.LogLine(L"OnRestored");
 					SendResizeEvent(_windowWidth, _windowHeight);
 				}
 			}
@@ -191,14 +191,14 @@ namespace EEngine
 		}
 		case WM_ENTERSIZEMOVE:
 		{
-			//_eLog.LogLine(L"OnEnterSizeMove");
+			//_logger.LogLine(L"OnEnterSizeMove");
 			//_paused = true;
 			_sizeMoving = true;
 			return 0;
 		}
 		case WM_EXITSIZEMOVE:
 		{
-			//_eLog.LogLine(L"OnExitSizeMove");
+			//_logger.LogLine(L"OnExitSizeMove");
 			//_paused = false;
 			_sizeMoving = false;
 			SendResizeEvent(_windowWidth, _windowHeight);
@@ -251,7 +251,7 @@ namespace EEngine
 		return DefWindowProc(hWnd, msg, wParam, lParam);
 	}
 
-	void EAppWindow::SendResizeEvent(int width, int height)
+	void AppWindow::SendResizeEvent(int width, int height)
 	{
 		for (auto iterator = _windowEventListeners.begin(), end = _windowEventListeners.end(); iterator != end; ++iterator)
 		{
@@ -259,26 +259,26 @@ namespace EEngine
 		}
 	}
 
-	void EAppWindow::BeginUpdate()
+	void AppWindow::BeginUpdate()
 	{
 	}
 
-	void EAppWindow::UpdatePausedState(bool paused)
+	void AppWindow::UpdatePausedState(bool paused)
 	{
 		_paused = paused;
 	}
 
-	void EAppWindow::UpdateFramesPerSeconds(float framesPerSeconds)
+	void AppWindow::UpdateFramesPerSeconds(float framesPerSeconds)
 	{
 		_framesPerSeconds = framesPerSeconds;
 	}
 
-	void EAppWindow::UpdateFrameTime(float frameTime)
+	void AppWindow::UpdateFrameTime(float frameTime)
 	{
 		_frameTime = frameTime;
 	}
 
-	void EAppWindow::EndUpdate()
+	void AppWindow::EndUpdate()
 	{
 		std::wostringstream outs;
 		outs.precision(6);

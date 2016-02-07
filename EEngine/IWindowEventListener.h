@@ -4,7 +4,7 @@
 
 namespace EEngine
 {
-	class IEWindowEventListener
+	class IWindowEventListener
 	{
 	public:
 		virtual void OnActivate() = 0;
