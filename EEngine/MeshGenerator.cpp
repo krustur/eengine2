@@ -5,6 +5,7 @@
 #include <d3dcompiler.h>
 
 #include "Color.h"
+#include "BoxGeometryGenerator.h"
 
 
 namespace EEngine
@@ -18,42 +19,45 @@ namespace EEngine
 	MeshGenerator::MeshGenerator(Renderer &renderer) :
 		_logger(L"MeshRenderer"),
 		_renderer(renderer)
-	{
+	{		
 	}
-
 
 	MeshGenerator::~MeshGenerator()
 	{
 	}
 
-	Mesh *MeshGenerator::GenerateMesh()
+	Mesh *MeshGenerator::GenerateMesh(IGeometryGenerator &geometryGenerator)
 	{
 		auto mesh = new Mesh();
 
-		BuildGeometryBuffers(*mesh);
+		BuildGeometryBuffers(geometryGenerator, *mesh);
 		BuildFX(*mesh);
 
 		return mesh;
 	}
 
-	void MeshGenerator::BuildGeometryBuffers(Mesh &mesh)
+	void MeshGenerator::BuildGeometryBuffers(IGeometryGenerator &geometryGenerator, Mesh &mesh)
 	{
-		float size = 0.5f;
-		Vertex vertices[] =
+		int geometryVerticeCount = geometryGenerator.GetVerticeCount();
+		Vector3 *geometryVertices = geometryGenerator.GetVertices();
+
+		Vertex *vertices = new Vertex[geometryVerticeCount];
+		for (int i = 0; i < geometryVerticeCount; i++)
 		{
-			{ DirectX::XMFLOAT3(-size, -size, -size), EEngine::Colors::White },
-			{ DirectX::XMFLOAT3(-size, +size, -size), EEngine::Colors::Black },
-			{ DirectX::XMFLOAT3(+size, +size, -size), EEngine::Colors::Red },
-			{ DirectX::XMFLOAT3(+size, -size, -size), EEngine::Colors::Green },
-			{ DirectX::XMFLOAT3(-size, -size, +size), EEngine::Colors::Blue },
-			{ DirectX::XMFLOAT3(-size, +size, +size), EEngine::Colors::Yellow },
-			{ DirectX::XMFLOAT3(+size, +size, +size), EEngine::Colors::Cyan },
-			{ DirectX::XMFLOAT3(+size, -size, +size), EEngine::Colors::Magenta }
-		};
+			vertices[i] = *(new Vertex());
+			vertices[i].Pos.x = geometryVertices[i].x;
+			vertices[i].Pos.y = geometryVertices[i].y;
+			vertices[i].Pos.z = geometryVertices[i].z;
+			vertices[i].Color = EEngine::Color(
+				static_cast <float> (rand()) / static_cast <float> (RAND_MAX),
+				static_cast <float> (rand()) / static_cast <float> (RAND_MAX),
+				static_cast <float> (rand()) / static_cast <float> (RAND_MAX),
+				1.f);
+		}
 
 		D3D11_BUFFER_DESC vertexBufferDescription;
 		vertexBufferDescription.Usage = D3D11_USAGE_IMMUTABLE;
-		vertexBufferDescription.ByteWidth = sizeof(Vertex) * 8;
+		vertexBufferDescription.ByteWidth = sizeof(Vertex) * geometryVerticeCount;
 		vertexBufferDescription.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 		vertexBufferDescription.CPUAccessFlags = 0;
 		vertexBufferDescription.MiscFlags = 0;
@@ -69,32 +73,19 @@ namespace EEngine
 			_logger.LogHResult(hresult);
 		}
 
-		UINT indices[] = {
-
-			0, 1, 2,	// front
-			0, 2, 3,
-			4, 6, 5,	// back
-			4, 7, 6,
-			4, 5, 1,	// left
-			4, 1, 0,
-			3, 2, 6,	// right
-			3, 6, 7,
-			1, 5, 6,	// top
-			1, 6, 2,
-			4, 0, 3,	// bottom
-			4, 3, 7
-		};
+		int geometryIndicesCount = geometryGenerator.GetIndicesCount();
+		unsigned int *geometryIndices = geometryGenerator.GetIndices();
 
 		D3D11_BUFFER_DESC indicesBufferDescription;
 		indicesBufferDescription.Usage = D3D11_USAGE_IMMUTABLE;
-		indicesBufferDescription.ByteWidth = sizeof(UINT) * 36;
+		indicesBufferDescription.ByteWidth = sizeof(UINT) * geometryIndicesCount;
 		indicesBufferDescription.BindFlags = D3D11_BIND_INDEX_BUFFER;
 		indicesBufferDescription.CPUAccessFlags = 0;
 		indicesBufferDescription.MiscFlags = 0;
 		indicesBufferDescription.StructureByteStride = 0;
 
 		D3D11_SUBRESOURCE_DATA indicesInitializationData;
-		indicesInitializationData.pSysMem = indices;
+		indicesInitializationData.pSysMem = geometryIndices;
 
 		ID3D11Buffer* indexBuffer;
 		hresult = (_renderer.GetD3dDevice()->CreateBuffer(&indicesBufferDescription, &indicesInitializationData, &indexBuffer));

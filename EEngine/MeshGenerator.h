@@ -3,6 +3,7 @@
 #include "Mesh.h"
 #include "Logger.h"
 #include "Renderer.h"
+#include "IGeometryGenerator.h"
 
 namespace EEngine
 {
@@ -12,10 +13,10 @@ namespace EEngine
 		MeshGenerator(Renderer &renderer);
 		~MeshGenerator();
 
-		Mesh *GenerateMesh();
+		Mesh *GenerateMesh(IGeometryGenerator &geometryGenerator);
 
 	private:
-		void BuildGeometryBuffers(Mesh &mesh);
+		void BuildGeometryBuffers(IGeometryGenerator &geometryGenerator, Mesh &mesh);
 		void BuildFX(Mesh &mesh);
 		//void BuildVertexLayout(Mesh &mesh);
 

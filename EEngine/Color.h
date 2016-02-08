@@ -9,6 +9,15 @@ namespace EEngine
 		float _blue;
 		float _alpha;
 
+		Color() {}
+		
+		Color(float red, float green, float blue, float alpha) :
+			_red(red),
+			_green(green),
+			_blue(blue),
+			_alpha(alpha)
+		{
+		}
 	};
 
 	namespace Colors
