@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ETestApp", "ETestApp\ETestApp.vcxproj", "{175BA614-F1AE-4FD0-A05E-5A09168BEB0C}"
 EndProject
@@ -10,6 +10,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Files", "Solution Files", "{8DE7CE0A-C11D-4095-A616-D0489E525A2E}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
+		gitignore\ideas todos links etc.txt = gitignore\ideas todos links etc.txt
 		README.md = README.md
 	EndProjectSection
 EndProject
