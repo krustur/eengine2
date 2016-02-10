@@ -6,7 +6,9 @@ namespace EEngine
 	GameObject::GameObject() :
 		_position(0, 0, 0),
 		_rotation(0, 0, 0),
-		_scale(1, 1, 1)		
+		_scale(1, 1, 1),
+		_localTransform(DirectX::XMMatrixIdentity())
+		//_worldTransform(DirectX::XMMatrixIdentity())
 	{
 	}
 
@@ -29,9 +31,9 @@ namespace EEngine
 		DirectX::XMMATRIX rotationMatrixZ = DirectX::XMMatrixRotationZ(_rotation.z);
 		DirectX::XMMATRIX translateMatrix = DirectX::XMMatrixTranslation(_position.x, _position.y, _position.z);
 
-		DirectX::XMMATRIX transform = scaleMatrix * rotationMatrixX * rotationMatrixY * rotationMatrixZ * translateMatrix;
+		_localTransform = scaleMatrix * rotationMatrixX * rotationMatrixY * rotationMatrixZ * translateMatrix;
 
-		return transform;
+		return _localTransform;
 	}
 	
 	DirectX::XMMATRIX &GameObject::GetWorldTransform()
@@ -43,9 +45,9 @@ namespace EEngine
 	{
 		DirectX::XMMATRIX localTransform = GetLocalTransform();
 		
-		DirectX::XMMATRIX inversedLocalTransform = DirectX::XMMatrixInverse(nullptr, localTransform);
+		_inversedLocalTransform = DirectX::XMMatrixInverse(nullptr, localTransform);
 
-		return inversedLocalTransform;
+		return _inversedLocalTransform;
 	}
 
 	DirectX::XMFLOAT3 &GameObject::GetPosition()

@@ -2,40 +2,29 @@
 
 #include <d3d11.h>
 #include "inc/d3dx11effect.h"
+#include "Material.h"
+#include "Vector3.h"
 
 namespace EEngine
 {
 	class Mesh
 	{
 	public:
-		Mesh();
+		explicit Mesh(Material *material);
 		~Mesh();
 
-		void SetVertexBuffer(ID3D11Buffer* vertexBuffer);		
-		void SetIndexBuffer(ID3D11Buffer* indexBuffer);
-		void SetInputLayout(ID3D11InputLayout* inputLayout);
-		void SetEffect(ID3DX11Effect* effect);
-		void SetEffectTechnique(ID3DX11EffectTechnique* effectTechnique);
-		void SetEffectWorldViewProj(ID3DX11EffectMatrixVariable* effectWorldViewProj);
-		void SetStride(int stride);
+		void SetVertices(unsigned int verticeCount, Vector3 *vertices);
+		void SetIndexes(unsigned int indexCount, unsigned int *indexes);
 
 		ID3D11Buffer * GetVertexBuffer();
 		ID3D11Buffer* GetIndexBuffer();
-		ID3D11InputLayout* GetInputLayout();
-		ID3DX11Effect* GetEffect();
-		ID3DX11EffectTechnique* GetEffectTechnique();
-		ID3DX11EffectMatrixVariable* GetEffectWorldViewProj();
-		int GetStride();
+
+		Material* GetMaterial();
 
 	private:
 		ID3D11Buffer* _vertexBuffer;
 		ID3D11Buffer* _indexBuffer;
-		ID3D11InputLayout* _inputLayout;
 
-		ID3DX11Effect* _effect;
-		ID3DX11EffectTechnique* _effectTechnique;
-		ID3DX11EffectMatrixVariable* _effectWorldViewProj;
-
-		int _stride;
+		Material *_material;
 	};
 }

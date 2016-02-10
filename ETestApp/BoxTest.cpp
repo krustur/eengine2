@@ -10,6 +10,8 @@
 #include "EEngineMath.h"
 #include "BoxGeometryGenerator.h"
 #include "d3dx11Effect.h"
+#include "Material.h"
+#include "StandardShader.h"
 
 BoxTest::BoxTest(EEngine::App *app) :
 	_app(app),
@@ -43,9 +45,12 @@ BoxTest::~BoxTest()
 
 void BoxTest::Init()
 {
-	_cube1Mesh = _meshGenerator.GenerateMesh(EEngine::BoxGeometryGenerator(0.5f));
-	_cube2Mesh = _meshGenerator.GenerateMesh(EEngine::BoxGeometryGenerator(0.6f));
-	_cube3Mesh = _meshGenerator.GenerateMesh(EEngine::BoxGeometryGenerator(1.0f));
+	EEngine::IShader *standardShader = new EEngine::StandardShader(*_renderer);
+	standardShader->BuildFX();
+	EEngine::Material *material = new EEngine::Material(standardShader);
+	_cube1Mesh = _meshGenerator.GenerateMesh(EEngine::BoxGeometryGenerator(0.5f), material);
+	_cube2Mesh = _meshGenerator.GenerateMesh(EEngine::BoxGeometryGenerator(0.5f), material);
+	_cube3Mesh = _meshGenerator.GenerateMesh(EEngine::BoxGeometryGenerator(0.5f), material);
 
 	BoxTest::OnResize();
 }
@@ -103,7 +108,7 @@ void BoxTest::DrawScene()
 
 void BoxTest::OnResize()
 {
-	DirectX::XMMATRIX P = DirectX::XMMatrixPerspectiveFovLH(1.0472, _renderer->GetAspectRatio(), 0.3f, 1000.0f);
+	DirectX::XMMATRIX P = DirectX::XMMatrixPerspectiveFovLH(1.0472f, _renderer->GetAspectRatio(), 0.3f, 1000.0f);
 	XMStoreFloat4x4(&_projectionMatrix, P);
 }
 

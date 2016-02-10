@@ -4,13 +4,10 @@
 
 namespace EEngine
 {
-	Mesh::Mesh() :
+	Mesh::Mesh(Material *material) :
 		_vertexBuffer(nullptr),
 		_indexBuffer(nullptr),
-		_inputLayout(nullptr),
-		_effect(0),
-		_effectTechnique(0),
-		_effectWorldViewProj(0)
+		_material(material)
 	{
 	}
 
@@ -19,58 +16,24 @@ namespace EEngine
 		if (_vertexBuffer)
 		{
 			_vertexBuffer->Release();
-			_vertexBuffer = 0;
+			_vertexBuffer = nullptr;
 		}
 		if (_indexBuffer)
 		{
 			_indexBuffer->Release();
-			_indexBuffer = 0;
-		}
-		if (_effect)
-		{
-			_effect->Release();
-			_effect = 0;
-		}
-		if (_inputLayout)
-		{
-			_inputLayout->Release();
-			_inputLayout = 0;
+			_indexBuffer = nullptr;
 		}
 	}
 
-	void Mesh::SetVertexBuffer(ID3D11Buffer* vertexBuffer)
+	void Mesh::SetVertices(unsigned int verticeCount, Vector3 *vertices)
 	{
-		_vertexBuffer = vertexBuffer;
+		_vertexBuffer = _material->GetShader()->AllocateVertexBuffer(verticeCount, vertices);
 	}
 
-	void Mesh::SetIndexBuffer(ID3D11Buffer* indexBuffer)
+	void Mesh::SetIndexes(unsigned int indexCount, unsigned int *indexes)
 	{
-		_indexBuffer = indexBuffer;
-	}
+		_indexBuffer = _material->GetShader()->AllocateIndexBuffer(indexCount, indexes);
 
-	void Mesh::SetInputLayout(ID3D11InputLayout* inputLayout)
-	{
-		_inputLayout = inputLayout;
-	}
-
-	void Mesh::SetEffect(ID3DX11Effect* effect)
-	{
-		_effect = effect;
-	}
-
-	void Mesh::SetEffectTechnique(ID3DX11EffectTechnique* effectTechnique)
-	{
-		_effectTechnique = effectTechnique;
-	}
-
-	void Mesh::SetEffectWorldViewProj(ID3DX11EffectMatrixVariable* effectWorldViewProj)
-	{
-		_effectWorldViewProj = effectWorldViewProj;
-	}
-
-	void Mesh::SetStride(int stride)
-	{
-		_stride = stride;
 	}
 
 	ID3D11Buffer * Mesh::GetVertexBuffer()
@@ -83,28 +46,8 @@ namespace EEngine
 		return _indexBuffer;
 	}
 
-	ID3D11InputLayout* Mesh::GetInputLayout()
+	Material *Mesh::GetMaterial()
 	{
-		return _inputLayout;
-	}
-
-	ID3DX11Effect* Mesh::GetEffect()
-	{
-		return _effect;
-	}
-
-	ID3DX11EffectTechnique* Mesh::GetEffectTechnique()
-	{
-		return _effectTechnique;
-	}
-
-	ID3DX11EffectMatrixVariable* Mesh::GetEffectWorldViewProj()
-	{
-		return _effectWorldViewProj;
-	}
-
-	int Mesh::GetStride()
-	{
-		return _stride;
+		return _material;
 	}
 }

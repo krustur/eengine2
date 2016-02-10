@@ -12,7 +12,7 @@ namespace EEngine
 	struct Logger
 	{
 	public:
-		Logger::Logger(LPTSTR name);
+		explicit Logger::Logger(LPTSTR name);
 		~Logger();
 
 		template <typename T> friend Logger& operator<<(Logger& logger, const T& t)

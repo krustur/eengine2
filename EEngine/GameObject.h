@@ -28,5 +28,8 @@ namespace EEngine
 		DirectX::XMFLOAT3 _position;
 		DirectX::XMFLOAT3 _rotation;
 		DirectX::XMFLOAT3 _scale;
+		DirectX::XMMATRIX _localTransform;
+		DirectX::XMMATRIX _inversedLocalTransform;
+		//DirectX::XMMATRIX _worldTransform;
 	};
 }

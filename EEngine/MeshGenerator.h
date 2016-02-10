@@ -12,14 +12,9 @@ namespace EEngine
 	public:
 		MeshGenerator(Renderer &renderer);
 		~MeshGenerator();
-
-		Mesh *GenerateMesh(IGeometryGenerator &geometryGenerator);
+		Mesh* GenerateMesh(IGeometryGenerator& geometryGenerator, Material* material);
 
 	private:
-		void BuildGeometryBuffers(IGeometryGenerator &geometryGenerator, Mesh &mesh);
-		void BuildFX(Mesh &mesh);
-		//void BuildVertexLayout(Mesh &mesh);
-
 		Logger _logger;
 		Renderer &_renderer;
 	};
