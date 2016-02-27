@@ -5,7 +5,7 @@ namespace EEngine
 	class Timer
 	{
 	public:
-		Timer();
+		explicit Timer();
 
 		void Init();
 		void Tick();

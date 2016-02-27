@@ -7,7 +7,7 @@ namespace EEngine
 	class BoxGeometryGenerator : public IGeometryGenerator
 	{
 	public:
-		BoxGeometryGenerator(float size);
+		explicit BoxGeometryGenerator(float size);
 		virtual ~BoxGeometryGenerator();
 		BoxGeometryGenerator(const BoxGeometryGenerator &other) = delete;
 		BoxGeometryGenerator & operator= (const BoxGeometryGenerator & other) = delete;

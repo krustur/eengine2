@@ -10,7 +10,7 @@ namespace EEngine
 	class MeshRenderer
 	{
 	public:
-		MeshRenderer(Renderer &renderer);
+		explicit MeshRenderer(Renderer &renderer);
 		~MeshRenderer();
 
 		void RenderMesh(Mesh *mesh, DirectX::XMMATRIX *worldViewProj);

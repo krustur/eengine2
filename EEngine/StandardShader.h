@@ -11,7 +11,7 @@ namespace EEngine
 	class StandardShader : public IShader
 	{
 		public:
-			StandardShader(Renderer &renderer);
+			explicit StandardShader(Renderer &renderer);
 
 			virtual void BuildFX() override;
 

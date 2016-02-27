@@ -16,7 +16,7 @@ namespace EEngine
 	class Renderer final : public IWindowEventListener
 	{
 	public:
-		Renderer(HWND windowHandle);
+		explicit Renderer(HWND windowHandle);
 		~Renderer();
 
 		virtual bool Init();

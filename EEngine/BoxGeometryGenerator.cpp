@@ -7,14 +7,14 @@ namespace EEngine
 		_indices(new unsigned int[36]),
 		_size(size)
 	{
-		_vertices[0] = { -_size, -_size, -_size };
-		_vertices[1] = { -_size, +_size, -_size };
-		_vertices[2] = { +_size, +_size, -_size };
-		_vertices[3] = { +_size, -_size, -_size };
-		_vertices[4] = { -_size, -_size, +_size };
-		_vertices[5] = { -_size, +_size, +_size };
-		_vertices[6] = { +_size, +_size, +_size };
-		_vertices[7] = { +_size, -_size, +_size };
+		_vertices[0] = Vector3(-_size, -_size, -_size);
+		_vertices[1] = Vector3(-_size, +_size, -_size);
+		_vertices[2] = Vector3(+_size, +_size, -_size);
+		_vertices[3] = Vector3(+_size, -_size, -_size);
+		_vertices[4] = Vector3(-_size, -_size, +_size);
+		_vertices[5] = Vector3(-_size, +_size, +_size);
+		_vertices[6] = Vector3(+_size, +_size, +_size);
+		_vertices[7] = Vector3(+_size, -_size, +_size);
 
 		_indices[0] = 0;
 		_indices[1] = 1;

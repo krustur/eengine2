@@ -10,7 +10,7 @@ namespace EEngine
 	class MeshGenerator
 	{
 	public:
-		MeshGenerator(Renderer &renderer);
+		explicit MeshGenerator(Renderer &renderer);
 		~MeshGenerator();
 		Mesh* GenerateMesh(IGeometryGenerator& geometryGenerator, Material* material);
 

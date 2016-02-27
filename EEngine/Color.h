@@ -9,9 +9,9 @@ namespace EEngine
 		float _blue;
 		float _alpha;
 
-		Color() {}
+		explicit Color() {}
 		
-		Color(float red, float green, float blue, float alpha) :
+		explicit Color(float red, float green, float blue, float alpha) :
 			_red(red),
 			_green(green),
 			_blue(blue),

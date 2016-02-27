@@ -13,7 +13,7 @@ namespace EEngine
 	class App : public IWindowEventListener
 	{
 	public:
-		App(HINSTANCE hInstance, HWND windowHandle);
+		explicit App(HINSTANCE hInstance, HWND windowHandle);
 		virtual ~App();
 
 		void Init();

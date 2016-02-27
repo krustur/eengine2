@@ -11,7 +11,7 @@ namespace EEngine
 	class AppWindow : public IAppStatsListener
 	{
 	public:
-		AppWindow(HINSTANCE hInstance, int nShowCmd);
+		explicit AppWindow(HINSTANCE hInstance, int nShowCmd);
 		virtual ~AppWindow();
 
 		bool Init();
