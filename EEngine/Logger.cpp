@@ -30,8 +30,20 @@ namespace EEngine
 		{
 			return;
 		}
-		freopen_s(&_stream, "EEngine.log", "w", stdout);
-		std::cout << "EEngine Logger start" << std::endl;
+		freopen_s(&_stream, "EEngine.log", "a", stdout);
+
+
+		auto prosit = GetDateTimeString();
+		auto dateTimeString = prosit.c_str();
+		std::cout << std::endl << dateTimeString;
+		std::cout << " EEngine Logger start" << std::endl;
+		std::cout << "================================================" << std::endl;
+		OutputDebugStringA(dateTimeString);
+		OutputDebugStringA("\n");
+		OutputDebugStringA(" EEngine Logger start");
+		OutputDebugStringA("\n");
+		OutputDebugStringA("================================================");
+
 		isStaticInitialized = true;
 	}
 
