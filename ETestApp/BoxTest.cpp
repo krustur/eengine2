@@ -33,14 +33,14 @@ BoxTest::BoxTest(EEngine::App *app) :
 	_lastMousePos.x = 0;
 	_lastMousePos.y = 0;
 
-	_camera.GetTransform().SetPosition(EEngine::Vector3(0, 2, -5));
-	_camera.GetTransform().SetRotation(EEngine::Vector3(0, 0, 0));
-	_cube1.GetTransform().SetPosition(EEngine::Vector3(0, 0, 0));
-	_cube1.GetTransform().SetRotation(EEngine::Vector3(0, 0, 0));
-	_cube2.GetTransform().SetPosition(EEngine::Vector3(-1.5, 0, 0));
-	_cube2.GetTransform().SetRotation(EEngine::Vector3(0, 0, 30));
-	_cube3.GetTransform().SetPosition(EEngine::Vector3(3, 0, 1.5));
-	_cube3.GetTransform().SetRotation(EEngine::Vector3(0, 45, 0));
+	_camera.SetPosition(EEngine::Vector3(0, 2, -5));
+	_camera.SetRotation(EEngine::Vector3(0, 0, 0));
+	_cube1.SetPosition(EEngine::Vector3(0, 0, 0));
+	_cube1.SetRotation(EEngine::Vector3(0, 0, 0));
+	_cube2.SetPosition(EEngine::Vector3(-1.5, 0, 0));
+	_cube2.SetRotation(EEngine::Vector3(0, 0, 30));
+	_cube3.SetPosition(EEngine::Vector3(3, 0, 1.5));
+	_cube3.SetRotation(EEngine::Vector3(0, 45, 0));
 
 	DirectX::XMMATRIX identity = DirectX::XMMatrixIdentity();
 	XMStoreFloat4x4(&_worldMatrix, identity);
@@ -68,28 +68,28 @@ void BoxTest::UpdateScene(float deltaTime)
 {
 	_theta += 1.0f * deltaTime;
 
-	auto cube1Rotation = _cube1.GetTransform().GetRotation();
+	auto cube1Rotation = _cube1.GetRotation();
 	cube1Rotation.y += 1.0f * deltaTime;
-	_cube1.GetTransform().SetRotation(cube1Rotation);
+	_cube1.SetRotation(cube1Rotation);
 
-	auto cube2Rotation = _cube2.GetTransform().GetRotation();
+	auto cube2Rotation = _cube2.GetRotation();
 	cube2Rotation.z -= 1.5f * deltaTime;
-	_cube2.GetTransform().SetRotation(cube2Rotation);
+	_cube2.SetRotation(cube2Rotation);
 
 
 
 
-	EEngine::Vector3 cube1Position = _cube1.GetTransform().GetPosition();
+	EEngine::Vector3 cube1Position = _cube1.GetPosition();
 
 
 
 
-	DirectX::XMMATRIX cube1Transform = _cube1.GetTransform().GetLocalTransform();
-	DirectX::XMMATRIX cube2Transform = _cube2.GetTransform().GetLocalTransform();
-	DirectX::XMMATRIX cube3Transform = _cube3.GetTransform().GetLocalTransform();
+	DirectX::XMMATRIX cube1Transform = _cube1.GetLocalTransform();
+	DirectX::XMMATRIX cube2Transform = _cube2.GetLocalTransform();
+	DirectX::XMMATRIX cube3Transform = _cube3.GetLocalTransform();
 
 
-	DirectX::XMMATRIX inverseCameraTransform = _camera.GetTransform().GetInversedLocalTransform();
+	DirectX::XMMATRIX inverseCameraTransform = _camera.GetInversedLocalTransform();
 
 	DirectX::XMMATRIX cube1ViewTransform = cube1Transform * inverseCameraTransform;
 	XMStoreFloat4x4(&_cube1ViewMatrix, cube1ViewTransform);
