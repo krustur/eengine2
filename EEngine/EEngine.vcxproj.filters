@@ -151,9 +151,9 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="HLSL\color.fx" />
+    <Library Include="lib\Effects11.lib" />
   </ItemGroup>
   <ItemGroup>
-    <Library Include="lib\Effects11.lib" />
+    <FxCompile Include="HLSL\StandardShader.fx" />
   </ItemGroup>
 </Project>

@@ -88,7 +88,7 @@ namespace EEngine
 
 		ID3D10Blob* compiledShader = 0;
 		ID3D10Blob* compilationMessages = 0;
-		HRESULT hresult = D3DCompileFromFile(L"../EEngine/HLSL/color.fx", 0, 0, 0, "fx_5_0", shaderFlags, 0, &compiledShader, &compilationMessages);
+		HRESULT hresult = D3DCompileFromFile(L"../EEngine/HLSL/StandardShader.fx", 0, 0, 0, "fx_5_0", shaderFlags, 0, &compiledShader, &compilationMessages);
 
 		if (compilationMessages != 0)
 		{
@@ -116,8 +116,8 @@ namespace EEngine
 			compiledShader = 0;
 		}
 
-		ID3DX11EffectTechnique* effectTechnique = effect->GetTechniqueByName("ColorTech");
-		ID3DX11EffectMatrixVariable* effectWorldViewProj = effect->GetVariableByName("gWorldViewProj")->AsMatrix();
+		ID3DX11EffectTechnique* effectTechnique = effect->GetTechniqueByName("StandardShaderTechnique");
+		ID3DX11EffectMatrixVariable* effectWorldViewProj = effect->GetVariableByName("g_WorldViewProj")->AsMatrix();
 
 		D3D11_INPUT_ELEMENT_DESC inputElementDescriptions[] =
 		{
